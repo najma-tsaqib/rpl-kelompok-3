@@ -1,0 +1,59 @@
+CREATE SCHEMA IF NOT EXISTS "UDLestari";
+SET search_path TO "UDLestari";
+
+--TABLE
+CREATE TABLE customer (
+    id_customer SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    nomor_telepon VARCHAR(15),
+    password TEXT NOT NULL,
+    otp VARCHAR(6),
+    otp_expired TIMESTAMP
+);
+
+create table admin (
+	id_admin SERIAL primary key,
+	username VARCHAR(50) unique not null,
+	password TEXT not null 
+	);
+
+CREATE TABLE produk (
+    id_produk SERIAL PRIMARY KEY,
+    nama_produk VARCHAR(100) NOT NULL,
+    harga INTEGER NOT NULL,
+    stok INTEGER NOT NULL
+);
+
+CREATE TABLE pesanan (
+    id_pesanan SERIAL PRIMARY KEY,
+    id_customer INTEGER REFERENCES customer(id_customer),
+    tanggal_pesanan TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_pesanan VARCHAR(50),
+    total_harga INTEGER
+);
+
+CREATE TABLE detail_pesanan (
+    id_detail SERIAL PRIMARY KEY,
+    id_pesanan INTEGER REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
+    id_produk INTEGER REFERENCES produk(id_produk),
+    jumlah INTEGER NOT NULL,
+    subtotal INTEGER
+);
+
+CREATE TABLE pembayaran (
+    id_pembayaran SERIAL PRIMARY KEY,
+    id_pesanan INTEGER UNIQUE REFERENCES pesanan(id_pesanan) ON DELETE CASCADE,
+    metode_pembayaran VARCHAR(20), -- transfer / cash
+    bukti_transfer TEXT,
+    status_pembayaran VARCHAR(50)
+);
+
+-- password ini HARUS di-hash di backend
+INSERT INTO admin (username, password)
+VALUES ('admin', 'admin123');
+
+--tambahan
+ALTER TABLE customer
+ADD COLUMN otp VARCHAR(6),
+ADD COLUMN otp_expired TIMESTAMP;
+
