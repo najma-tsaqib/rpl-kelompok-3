@@ -1,0 +1,295 @@
+.customer-container {
+  display: flex;
+  height: calc(100vh - 64px);
+  background: #f3f4f6;
+}
+
+/* SIDEBAR */
+
+.customer-sidebar {
+  width: 235px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 22px 16px;
+
+  min-height: calc(100vh - 64px);
+
+  display: flex;
+  flex-direction: column;
+   overflow:hidden;
+}
+
+.sidebar-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 14px;
+}
+
+.category-list{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+
+  flex:1;
+}
+
+.category-btn {
+  border: none;
+  background: transparent;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+.category-btn:hover {
+  background: #eff6ff;
+}
+
+.category-btn.active {
+  background: #dbeafe;
+  color: #1e90ff;
+  font-weight: 700;
+}
+
+/* CONTENT */
+
+.customer-content {
+  flex: 1;
+  padding: 28px 32px;
+  overflow-y:auto;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.content-header h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.content-header h1 span {
+  color: #1e90ff;
+}
+
+.content-header p {
+  margin-top: 6px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.sort-btn {
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* PRODUCT GRID */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
+
+.product-card {
+  overflow: hidden;
+  transition: 0.2s;
+
+  border-radius: 24px;
+  background: #FFF;
+
+  box-shadow:
+    0 4px 20px rgba(30, 144, 255, 0.13);
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+}
+
+.product-image {
+  height: 170px;
+  overflow: hidden;
+
+  background: #dcecff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.product-category {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #1e90ff;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 999px;
+  text-transform: lowercase;
+}
+
+/* BODY */
+
+.product-image {
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -12px;
+  margin-bottom: 12px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 2px;
+}
+
+.product-unit {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e90ff;
+  margin-bottom: 14px;
+}
+
+.product-price span {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* BUTTON */
+
+
+
+.product-cart-btn{
+  width: 100%;
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #1e90ff;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  margin-top: 16px;
+}
+
+.product-cart-btn i{
+  font-size: 14px;
+}
+
+.product-cart-btn:hover{
+  background: #1570cd;
+}
+
+.product-cart-btn:hover i{
+  color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .customer-container {
+    flex-direction: column;
+  }
+
+  .customer-sidebar {
+    width: 100%;
+  }
+
+  .content-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+}
+
+.customer-content .product-img {
+  width: 88%;
+  height: 88%;
+
+  object-fit: contain;
+  object-position: center;
+
+  transform: none;
+}
+
+.customer-content .product-emoji {
+  font-size: 42px;
+}
+
+/* LOGOUT */
+
+.sidebar-logout{
+  margin-top:auto;
+  padding-top:24px;
+}
+
+.logout-btn{
+  width:100%;
+  height:46px;
+
+  border:none;
+  border-radius:12px;
+
+  background:#ef4444;
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  font-size:14px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.logout-btn:hover{
+  background:#dc2626;
+}

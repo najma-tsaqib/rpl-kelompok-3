@@ -1,0 +1,48 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.admin-body {
+  display: flex;
+  flex: 1;
+}
+
+.dashboard {
+  flex: 1;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  flex: 1;
+}
+
+.card .value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.chart-section {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.best-products {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  flex: 1;
+}

@@ -1,0 +1,520 @@
+.dashboard {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-gray);
+  margin-bottom: 24px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 10px;
+  padding-bottom: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.chart-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 18px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.chart-title span {
+  font-family: 'Nunito', sans-serif;
+}
+
+/* dropdown */
+.chart-year {
+  padding: 6px 28px 6px 16px;
+  border-radius: 8px;
+  border: 2px solid #EEF1F5;
+
+  background: #FFF;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  font-family: Nunito;
+  font-weight: 400;
+  cursor: pointer;
+
+  position: relative;
+  z-index: 20;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--border-gray);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  
+}
+.orders-container {
+  border-radius: 16px;
+  background: #FFF;
+  box-shadow: 0 4px 20px 0 rgba(30, 144, 255, 0.13);
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+}
+.stat-icon {
+  font-size: 24px;
+  min-width: 32px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.stat-change {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-change.positive {
+  color: var(--success);
+}
+
+.stat-change.negative {
+  color: var(--danger);
+}
+
+.change-text {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+  
+}
+
+.chart-container {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  border-radius: 16px;
+  background: #FFF;
+  box-shadow: 0 4px 20px 0 rgba(30, 144, 255, 0.13);
+
+  position: relative; /* 🔥 penting */
+  z-index: 1;
+  border-radius: 16px;
+  padding-bottom: 30px;
+}
+
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  height: 220px; /* 🔥 tambahin */
+  margin-top: 30px; /* 🔥 tambahin */
+  border: none !important;
+
+}
+
+.chart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  flex: 1;
+  transform: translateY(40px); 
+}
+
+.chart-bar-container {
+  height: 10px;
+  display: flex;
+  align-items: flex-end;
+  
+}
+
+.chart-bar {
+  width: 45px;
+  border-radius: 10px 10px 6px 6px;
+  background: linear-gradient(180deg, #3B82F6 0%, #2563EB 100%);
+  transition: 0.3s;
+  position: relative;
+}
+
+.chart-bar:hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+.chart-label {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #6B7280;
+
+}
+
+.chart-value {
+  position: absolute;
+  top: -20px; /* cukup ini aja */
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.chart-bar.highlight {
+  background: linear-gradient(180deg, #FACC15 0%, #F59E0B 100%);
+}
+
+.chart-container::before {
+  pointer-events: none;
+}
+
+.products-container {
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: #FFF;
+  box-shadow: 0 4px 20px 0 rgba(30, 144, 255, 0.13);
+}
+
+.products-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-radius: 16px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.product-emoji {
+  font-size: 20px;
+}
+
+.product-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.product-bar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--border-gray);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.product-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-light) 0%, var(--primary) 100%);
+  transition: width 0.3s ease;
+}
+
+.product-percentage {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+  min-width: 35px;
+  text-align: right;
+}
+
+.orders-container .action-btn:hover {
+  opacity: 0.85;
+}
+
+.action-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-right: 6px;
+  border: none;
+  cursor: pointer;
+  width: auto !important;
+}
+
+.badge-warning {
+  background: #FEF3C7;
+  color: #B45309;
+}
+
+.badge-info {
+  background: #DBEAFE;
+  color: #2563EB;
+}
+
+/* KONFIRMASI */
+.btn-success {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+/* DETAIL */
+.btn-primary {
+  background: #DBEAFE;
+  color: #2563EB;
+}
+
+td:last-child {
+  white-space: nowrap;
+}
+
+
+
+.action-btn:hover {
+  background-color: var(--primary);
+}
+
+.order-id {
+  color: #2563EB;
+  font-weight: 700;
+}
+
+.order-total {
+  color: #2563EB;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-bars {
+    height: 150px;
+  }
+
+  .chart-bar-container {
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chart-bars {
+    gap: 4px;
+  }
+
+  .chart-label {
+    font-size: 10px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 22px;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  
+  text-align: left;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.link-button {
+  background: #3B82F6;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.card-header {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+}
+
+.card-title {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.link-button {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.orders-container .card-header {
+  padding: 10px 25px;
+}
+
+/* FORCE SOFT TABLE */
+.orders-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* HEADER */
+.orders-container thead {
+  background-color: #F9FAFB !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+/* ROW */
+.orders-container td {
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+/* HILANGIN GARIS LAMA */
+.orders-container th,
+.orders-container td {
+  border-color: #F1F5F9 !important;
+}
+
+.orders-container .card-header {
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+.orders-container .card-header {
+  padding: 16px 24px;
+}
+
+.orders-container td,
+.orders-container th {
+  padding: 16px 24px;
+}
+
+/* DETAIL */
+.orders-container .btn-primary {
+  background: #DBEAFE; /* 🔥 flat biru muda */
+  color: #2563EB;      /* 🔥 teks biru */
+  border-radius: 6px;  /* 🔥 lebih kecil */
+  padding: 6px 12px;   /* 🔥 kecil & compact */
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;    /* 🔥 hilangin glow */
+}
+
+/* KONFIRMASI */
+.orders-container .btn-success {
+  background: #DCFCE7;
+  color: #16A34A;
+  border-radius: 6px;
+  padding: 8px 16px;
+}
+
+/* STATUS BADGE */
+.orders-container .badge {
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 600;
+}

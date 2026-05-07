@@ -1,0 +1,372 @@
+.stock-page {
+  animation: fadeIn 0.4s ease;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-gray);
+}
+
+.stock-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 2px solid var(--success);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-box.warning {
+  background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+  border-color: var(--warning);
+}
+
+.stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 8px;
+}
+
+.stat-box.warning .stat-number {
+  color: var(--warning);
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat-unit {
+  font-size: 12px;
+  color: var(--text-gray);
+}
+
+.update-form {
+  margin-bottom: 24px;
+  background-color: var(--bg-light);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.form-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-gray);
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  color: var(--text-dark);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-gray);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.stock-card {
+  background: var(--bg-white);
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.stock-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.stock-card.status-aman {
+  border-color: var(--success);
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.05) 0%, #ffffff 100%);
+}
+
+.stock-card.status-perhatian {
+  border-color: var(--warning);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, #ffffff 100%);
+}
+
+.stock-card.status-rendah {
+  border-color: var(--danger);
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.05) 0%, #ffffff 100%);
+}
+
+.stock-header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.stock-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.stock-id {
+  font-size: 11px;
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.stock-content {
+  margin-bottom: 16px;
+}
+
+.stock-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+}
+
+.stock-row .label {
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.stock-row .value {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.stock-current {
+  color: var(--primary-light);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.stock-meter {
+  margin: 12px 0;
+}
+
+.meter-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--border-gray);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.meter-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.meter-fill.status-aman {
+  background: linear-gradient(90deg, var(--success), #22c55e);
+}
+
+.meter-fill.status-perhatian {
+  background: linear-gradient(90deg, var(--warning), #fcd34d);
+}
+
+.meter-fill.status-rendah {
+  background: linear-gradient(90deg, var(--danger), #fca5a5);
+}
+
+.meter-label {
+  font-size: 11px;
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.stock-status {
+  margin: 12px 0;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge.status-aman {
+  background-color: #dcfce7;
+  color: var(--success);
+}
+
+.badge.status-perhatian {
+  background-color: #fef3c7;
+  color: var(--warning);
+}
+
+.badge.status-rendah {
+  background-color: #fee2e2;
+  color: var(--danger);
+}
+
+.stock-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: var(--primary-light);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.action-btn:hover {
+  background-color: var(--primary);
+}
+
+.legend-card {
+  margin-top: 24px;
+}
+
+.legend-card h3 {
+  font-size: 16px;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+.legend-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-badge.aman {
+  background-color: var(--success);
+}
+
+.legend-badge.perhatian {
+  background-color: var(--warning);
+}
+
+.legend-badge.rendah {
+  background-color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .stock-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stock-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .legend-items {
+    grid-template-columns: 1fr;
+  }
+}

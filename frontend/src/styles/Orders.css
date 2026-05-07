@@ -1,0 +1,367 @@
+.orders-page {
+  animation: fadeIn 0.4s ease;
+  
+}
+
+.page-header {
+  margin-bottom: 24px;
+  
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-gray);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+}
+
+.header-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border: 1px solid var(--border-gray);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-gray);
+}
+
+.table-container {
+  overflow-x: auto;
+  margin: 0;
+}
+
+.card {
+  padding: 0;
+}
+
+table {
+  width:100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: #F3F4F6;
+}
+
+
+th {
+  padding: 14px 24px;
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+tbody tr {
+  position: relative;
+}
+
+tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+}
+
+tbody tr {
+  border-bottom: 1px solid #F1F5F9; /* garis super soft */
+  height: 80px;
+}
+
+tbody tr:hover {
+  background-color: #F9FAFB;
+}
+
+.order-id {
+  color: #3B82F6;
+  font-weight: 700;
+}
+
+.order-total {
+  color: #2563EB;
+  font-weight: 600;
+}
+
+
+.amount {
+  font-weight: 600;
+  color: #2563EB;
+}
+
+.action-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-right: 24px; /* 🔥 kasih jarak dari ujung */
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.action-btn.primary {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background-color: var(--primary);
+}
+
+.action-btn.danger {
+  background-color: var(--border-gray);
+  color: var(--text-dark);
+}
+
+.action-btn.danger:hover {
+  background-color: #d1d5db;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-gray);
+}
+
+.result-info {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--border-gray);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pagination-btn:hover:not(.active) {
+  border-color: var(--primary-light);
+  color: var(--primary-light);
+}
+
+.pagination-btn.active {
+  background-color: var(--primary-light);
+  color: white;
+  border-color: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+  .header-controls {
+    flex-direction: column;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
+
+  th, td {
+    padding: 12px 8px;
+    font-size: 11px;
+  }
+
+  .action-cell {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+
+  .table-footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Pending */
+.badge-warning {
+  background: #FEF3C7;
+  color: #B45309;
+}
+
+/* Dikonfirmasi */
+.badge-info {
+  background: #DBEAFE;
+  color: #2563EB;
+}
+
+/* Selesai */
+.badge-success {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.action-cell button {
+  margin-right: 6px;
+}
+
+/* KONFIRMASI */
+.btn-success {
+  background: #D1FAE5;
+  color: #059669;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+}
+
+/* DETAIL */
+.btn-detail {
+  background: #DBEAFE;
+  color: #2563EB;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* 🔥 HOVER */
+.btn-detail:hover {
+  background: #BFDBFE; /* sedikit lebih gelap */
+}
+
+/* 🔥 KETIKA DIKLIK */
+.btn-detail:active {
+  background: #93C5FD; /* lebih gelap lagi */
+  transform: scale(0.97); /* efek ditekan */
+}
+
+/* TOLAK */
+.btn-danger {
+  background: #FEE2E2;
+  color: #DC2626;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+}
+
+.orders-container {
+  padding: 0; /* 🔥 hilangin padding card */
+}
+
+th:last-child {
+  text-align: right;
+}
+
+th:last-child,
+td:last-child {
+  padding-right: 24px;
+  text-align: left; /* jangan right */
+}
+
+
+td:last-child {
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+.orders-container td {
+  border-bottom: 1px solid #F1F5F9;
+}
+
+td {
+  border-bottom: none;
+}
+
+.search-box {
+  position: relative;
+  width: 240px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: none;
+  border-radius: 12px;
+  background: #F3F4F6; /* abu soft */
+  font-size: 14px;
+  color: #374151;
+}
+
+/* placeholder */
+.search-box input::placeholder {
+  color: #9CA3AF;
+}
+
+/* focus (biar halus, ga terlalu nyala) */
+.search-box input:focus {
+  outline: none;
+  background: #E5E7EB;
+}
+
+/* icon */
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #9CA3AF;
+}
+

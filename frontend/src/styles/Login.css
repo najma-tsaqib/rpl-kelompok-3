@@ -1,0 +1,265 @@
+/* ROOT WARNA */
+:root {
+  --blue: #1E90FF;
+  --blue-dark: #1570CD;
+  --blue-light: #E8F4FF;
+  --gray-text: #8A94A6;
+  --gray-light: #EEF1F5;
+  --dark: #000000;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* PAGE */
+ .auth-page {
+  display: flex;
+  min-height: 836px;
+  padding: 67px 40px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  background: linear-gradient(120deg, #E8F4FF 0%, #D0E8FF 50%, #BDD8FF 100%);
+  }
+
+/* efek background ayam tipis */
+.auth-page::before {
+  content: "🐔";
+  position: absolute;
+  font-size: 180px;
+  opacity: 0.05;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  
+}
+
+/* CARD */
+.auth-card {
+    background:#fff; 
+    border-radius:24px;
+    padding:44px; 
+    width:100%; 
+    max-width:440px;
+    box-shadow:0 20px 60px rgba(30,144,255,0.18);
+    position:relative; 
+    z-index:1;
+}
+
+/* LOGO */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.auth-logo-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1E90FF, #1570CD);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(30,144,255,0.25);
+  flex-shrink: 0;
+}
+
+.auth-logo-icon img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.auth-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.auth-logo-text strong {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.auth-logo-text span {
+  font-size: 12px;
+  color: #94A3B8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* TITLE */
+.auth-title {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray-text);
+  margin-bottom: 28px;
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* INPUT */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--gray-light);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--blue);
+}
+
+/* ICON INPUT */
+.input-icon {
+  position: relative;
+}
+
+.input-icon i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-text);
+}
+
+.input-icon .form-input {
+  padding-left: 40px;
+}
+
+/* BUTTON */
+.btn-primary {
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 5px;
+}
+
+.btn-primary:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
+}
+
+/* DIVIDER */
+.auth-divider {
+  text-align: center;
+  font-size: 13px;
+  color: var(--gray-text);
+  margin: 18px 0;
+}
+
+/* SOCIAL LOGIN */
+.social-logins {
+  display: flex;
+  gap: 10px;
+}
+
+.social-btn {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid var(--gray-light);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.social-btn:hover {
+  border-color: var(--blue);
+  background: var(--blue-light);
+}
+
+/* SWITCH */
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray-text);
+  margin-top: 16px;
+}
+
+.auth-switch a {
+  color: var(--blue);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.input-icon {
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  box-sizing: border-box; /* 🔥 INI PENTING */
+}
+
+.auth-logo-text 
+{ 
+    font-family:'Poppins', sans-serif; 
+    font-weight:800; 
+    font-size:18px; 
+    color:var(--dark); 
+}
+.auth-logo-text span 
+{ font-size:12px; 
+    color:var(--gray-text); 
+    font-weight:500; 
+    display:block; 
+}
+
+.auth-title 
+{ 
+    font-family:'Poppins',
+    sans-serif; 
+    font-size:24px; 
+    font-weight:800; 
+    color:var(--dark); 
+    text-align:center; 
+    margin-bottom:6px;
+}
