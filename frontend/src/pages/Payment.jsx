@@ -1,52 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Payment.css';
 
 export default function Payment() {
-  const [payments, setPayments] = useState([
-    {
-      id: '#ORD-0048',
-      customer: 'Budi Santoso',
-      orderId: '#ORD-0048',
-      method: 'Transfer Bank',
-      amount: 'Rp150.000',
-      date: '20 Jun 2024',
-      status: 'Belum Diverifikasi'
-    },
-    {
-      id: '#ORD-0045',
-      customer: 'Dewi Lestari',
-      orderId: '#ORD-0045',
-      method: 'E-Wallet',
-      amount: 'Rp30.000',
-      date: '19 Jun 2024',
-      status: 'Belum Diverifikasi'
-    },
-    {
-      id: '#ORD-0047',
-      customer: 'Siti Rahayu',
-      orderId: '#ORD-0047',
-      method: 'Transfer Bank',
-      amount: 'Rp110.000',
-      date: '20 Jun 2024',
-      status: 'Terverifikasi'
-    }
-  ]);
 
-  const handleVerify = (id) => {
-    setPayments(payments.map(p =>
-      p.id === id ? { ...p, status: 'Terverifikasi' } : p
-    ));
+  const [payments, setPayments] = useState([]);
+
+  /* FETCH DATA */
+  const fetchData = () => {
+
+    fetch("http://localhost/UDLestari/payment.php")
+      .then(res => res.json())
+      .then(data => setPayments(data));
+
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  /* VERIFY */
+  const handleVerify = (id) => {
+
+    fetch("http://localhost/UDLestari/payment.php", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        id_pembayaran: id,
+        status: "Terverifikasi"
+      })
+    })
+      .then(res => res.json())
+      .then(() => fetchData());
+
+  };
+
+  /* REJECT */
   const handleReject = (id) => {
-    setPayments(payments.map(p =>
-      p.id === id ? { ...p, status: 'Ditolak' } : p
-    ));
+
+    fetch("http://localhost/UDLestari/payment.php", {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        id_pembayaran: id,
+        status: "Ditolak"
+      })
+    })
+      .then(res => res.json())
+      .then(() => fetchData());
+
   };
 
   const getStatusBadgeClass = (status) => {
-    if (status === 'Terverifikasi') return 'badge-success';
-    if (status === 'Ditolak') return 'badge-danger';
+
+    if (status === 'Terverifikasi')
+      return 'badge-success';
+
+    if (status === 'Ditolak')
+      return 'badge-danger';
+
     return 'badge-warning';
   };
 
@@ -78,10 +97,10 @@ export default function Payment() {
             <tbody>
               {payments.map((payment, idx) => (
                 <tr key={idx}>
-                  <td className="order-id">{payment.orderId}</td>
+                  <td className="order-id">#ORD-{String(payment.id_pesanan).padStart(4, '0')}</td>
                   <td>{payment.customer}</td>
                   <td>{payment.method}</td>
-                  <td className="amount">{payment.amount}</td>
+                  <td className="amount">Rp{Number(payment.amount).toLocaleString("id-ID")}</td>
                   <td>{payment.date}</td>
                   <td>
                     <span className={`badge ${getStatusBadgeClass(payment.status)}`}>
@@ -93,13 +112,13 @@ export default function Payment() {
                       <>
                         <button
                           className="action-btn verify"
-                          onClick={() => handleVerify(payment.id)}
+                          onClick={() => handleVerify(payment.id_pembayaran)}
                         >
                           Verifikasi
                         </button>
                         <button
                           className="action-btn reject"
-                          onClick={() => handleReject(payment.id)}
+                          onClick={() => handleReject(payment.id_pembayaran)}
                         >
                           Tolak
                         </button>

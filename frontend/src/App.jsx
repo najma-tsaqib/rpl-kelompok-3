@@ -135,8 +135,25 @@ const [role, setRole] = useState(
         }
       />
 
-      <Route path="/success" element={<Success />} />
+      <Route
+        path="/checkout"
+        element={
+          <Payment
+            isLogin={isLogin}
+            role={role}
+          />
+        }
+      />
 
+          <Route
+      path="/success"
+      element={
+        <Success
+          isLogin={isLogin}
+          role={role}
+        />
+      }
+    />
       </Routes>
     </BrowserRouter>
   );

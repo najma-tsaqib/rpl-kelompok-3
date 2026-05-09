@@ -255,3 +255,21 @@
 .checkout-btn:hover {
   background: #1d6fe0;
 }
+
+.uploaded-file {
+
+  margin-top: 12px;
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+
+}
+
+.upload-success {
+
+  margin-top: 10px;
+  color: #16a34a;
+  font-size: 14px;
+  font-weight: 600;
+
+}

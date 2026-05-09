@@ -1,4 +1,8 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams
+} from "react-router-dom";
+
 import "../styles/Success.css";
 
 export default function Success() {
@@ -17,39 +21,55 @@ export default function Success() {
       <div className="success-card">
 
         <div className="success-icon">
-          ✅
+          ☑️
         </div>
 
-        <h1>
+        <h1 className="success-title">
           Pesanan Berhasil!
         </h1>
 
-        <p>
-          Pesanan Anda berhasil dibuat
-          dan sedang menunggu verifikasi admin.
+        <p className="success-desc">
+          Pesanan Anda telah berhasil ditempatkan.
+          Tim kami akan segera memproses pesanan
+          Anda dan menghubungi Anda untuk konfirmasi.
         </p>
 
         <div className="success-box">
 
           <div className="success-row">
-            <span>No. Pesanan</span>
-            <strong>
+
+            <span className="success-label">
+              No. Pesanan:
+            </span>
+
+            <strong className="success-value">
               #ORD-{String(id).padStart(4, "0")}
             </strong>
+
           </div>
 
           <div className="success-row">
-            <span>Status</span>
-            <div className="pending-badge">
-              Pending
+
+            <span className="success-label">
+              Status:
+            </span>
+
+            <div className="success-status">
+              Menunggu Verifikasi
             </div>
+
           </div>
 
           <div className="success-row">
-            <span>Total</span>
+
+            <span className="success-label">
+              Total:
+            </span>
+
             <strong className="success-total">
               Rp{Number(total).toLocaleString("id-ID")}
             </strong>
+
           </div>
 
         </div>
@@ -57,17 +77,17 @@ export default function Success() {
         <div className="success-actions">
 
           <button
-            className="success-btn primary"
-            onClick={() => navigate("/customer")}
+            className="success-btn-primary"
+            onClick={() => navigate("/orders")}
           >
-            Kembali Belanja
+            📦 Lihat Pesanan
           </button>
 
           <button
-            className="success-btn secondary"
-            onClick={() => navigate("/orders")}
+            className="success-btn-secondary"
+            onClick={() => navigate("/customer")}
           >
-            Lihat Pesanan
+            🏠 Kembali
           </button>
 
         </div>

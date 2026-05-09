@@ -6,6 +6,9 @@ export default function Cart({ isLogin, role }) {
 
   const [cart, setCart] = useState([]);
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
   useEffect(() => {
 
     const data =
@@ -105,28 +108,58 @@ const removeItem = (id) => {
   );
 };
 
-const handleCheckout = () => {
+const handleCheckout = async () => {
 
-  fetch("http://localhost/UDLestari/checkout.php", {
-    method: "POST",
+  /* checkout */
+  const checkoutRes = await fetch(
+    "http://localhost/UDLestari/checkout.php",
+    {
+      method: "POST",
 
-    headers: {
-      "Content-Type": "application/json"
-    },
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-    body: JSON.stringify({
-      cart,
-      total
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
+      body: JSON.stringify({
+        cart,
+        total
+      })
+    }
+  );
+  
+  setUploadSuccess(true);
 
-      localStorage.removeItem("cart");
+  const checkoutData =
+    await checkoutRes.json();
 
-      window.location.href =
-        `/success?id=${data.id_pesanan}&total=${total}`;
-    });
+  /* kalau ada file */
+  if (selectedFile) {
+
+    const formData = new FormData();
+
+    formData.append(
+      "id_pembayaran",
+      checkoutData.id_pembayaran
+    );
+
+    formData.append(
+      "file",
+      selectedFile
+    );
+
+    await fetch(
+      "http://localhost/UDLestari/upload_payment.php",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+  }
+
+  localStorage.removeItem("cart");
+
+  window.location.href =
+    `/success?id=${checkoutData.id_pesanan}&total=${total}`;
 };
 
   return (
@@ -309,10 +342,22 @@ const handleCheckout = () => {
             <h3>
                 Upload Bukti Pembayaran
             </h3>
-
             <label className="upload-box">
 
-                <input type="file" hidden />
+                <input
+              type="file"
+              hidden
+              onChange={(e) => {
+
+                setSelectedFile(
+                  e.target.files[0]
+                );
+
+                setUploadSuccess(false);
+
+              }
+            }
+            />
 
                 <div className="upload-icon">
                 ☁️
@@ -325,6 +370,25 @@ const handleCheckout = () => {
                 <span>
                 Format: JPG, PNG, PDF
                 </span>
+                {selectedFile && (
+
+                <div className="uploaded-file">
+
+                  📄 {selectedFile.name}
+
+                </div>
+
+              )}
+
+              {uploadSuccess && (
+
+                <div className="upload-success">
+
+                  ✅ Bukti pembayaran berhasil diupload
+
+                </div>
+
+              )}
 
             </label>
 
