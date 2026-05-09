@@ -8,6 +8,7 @@ export default function Cart({ isLogin, role }) {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("Transfer Bank");
 
   useEffect(() => {
 
@@ -36,131 +37,134 @@ export default function Cart({ isLogin, role }) {
     return "📦";
   };
 
-const updateQty = (id, type) => {
+  const updateQty = (id, type) => {
 
-  const updatedCart = cart.map((item) => {
+    const updatedCart = cart.map((item) => {
 
-    if (item.id_produk === id) {
+      if (item.id_produk === id) {
 
-      if (type === "plus") {
+        if (type === "plus") {
 
-        return {
-          ...item,
-          qty: item.qty + 1
-        };
-      }
-
-      if (type === "minus") {
-
-        if (item.qty === 1) {
-
-          const confirmDelete = window.confirm(
-            "Apakah anda yakin ingin menghapus produk ini dari keranjang?"
-          );
-
-          if (confirmDelete) {
-
-            return {
-              ...item,
-              qty: 0
-            };
-          }
-
-          return item;
+          return {
+            ...item,
+            qty: item.qty + 1
+          };
         }
 
-        return {
-          ...item,
-          qty: item.qty - 1
-        };
+        if (type === "minus") {
+
+          if (item.qty === 1) {
+
+            const confirmDelete = window.confirm(
+              "Apakah anda yakin ingin menghapus produk ini dari keranjang?"
+            );
+
+            if (confirmDelete) {
+
+              return {
+                ...item,
+                qty: 0
+              };
+            }
+
+            return item;
+          }
+
+          return {
+            ...item,
+            qty: item.qty - 1
+          };
+        }
       }
-    }
 
-    return item;
-  })
-  .filter((item) => item.qty > 0);
+      return item;
+    })
+    .filter((item) => item.qty > 0);
 
-  setCart(updatedCart);
+    setCart(updatedCart);
 
-  localStorage.setItem(
-    "cart",
-    JSON.stringify(updatedCart)
-  );
-};
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
+  };
 
-const removeItem = (id) => {
+  const removeItem = (id) => {
 
-  const confirmDelete = window.confirm(
-    "Apakah anda yakin ingin menghapus produk ini dari keranjang?"
-  );
-
-  if (!confirmDelete) return;
-
-  const updatedCart = cart.filter(
-    (item) => item.id_produk !== id
-  );
-
-  setCart(updatedCart);
-
-  localStorage.setItem(
-    "cart",
-    JSON.stringify(updatedCart)
-  );
-};
-
-const handleCheckout = async () => {
-
-  /* checkout */
-  const checkoutRes = await fetch(
-    "http://localhost/UDLestari/checkout.php",
-    {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        cart,
-        total
-      })
-    }
-  );
-  
-  setUploadSuccess(true);
-
-  const checkoutData =
-    await checkoutRes.json();
-
-  /* kalau ada file */
-  if (selectedFile) {
-
-    const formData = new FormData();
-
-    formData.append(
-      "id_pembayaran",
-      checkoutData.id_pembayaran
+    const confirmDelete = window.confirm(
+      "Apakah anda yakin ingin menghapus produk ini dari keranjang?"
     );
 
-    formData.append(
-      "file",
-      selectedFile
+    if (!confirmDelete) return;
+
+    const updatedCart = cart.filter(
+      (item) => item.id_produk !== id
     );
 
-    await fetch(
-      "http://localhost/UDLestari/upload_payment.php",
+    setCart(updatedCart);
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(updatedCart)
+    );
+  };
+
+  const handleCheckout = async () => {
+
+    const checkoutRes = await fetch(
+      "http://localhost/UDLestari/checkout.php",
       {
         method: "POST",
-        body: formData
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          cart,
+          total,
+          metode_pembayaran: paymentMethod
+        })
       }
     );
-  }
 
-  localStorage.removeItem("cart");
+    const checkoutData =
+      await checkoutRes.json();
 
-  window.location.href =
-    `/success?id=${checkoutData.id_pesanan}&total=${total}`;
-};
+    /* upload kalau bukan COD */
+    if (
+      paymentMethod !== "COD" &&
+      selectedFile
+    ) {
+
+      const formData = new FormData();
+
+      formData.append(
+        "id_pembayaran",
+        checkoutData.id_pembayaran
+      );
+
+      formData.append(
+        "file",
+        selectedFile
+      );
+
+      await fetch(
+        "http://localhost/UDLestari/upload_payment.php",
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+
+      setUploadSuccess(true);
+    }
+
+    localStorage.removeItem("cart");
+
+    window.location.href =
+      `/success?id=${checkoutData.id_pesanan}&total=${total}`;
+  };
 
   return (
     <>
@@ -235,11 +239,11 @@ const handleCheckout = async () => {
                   <div className="qty-box">
 
                     <button
-                    onClick={() =>
+                      onClick={() =>
                         updateQty(item.id_produk, "minus")
-                    }
+                      }
                     >
-                    -
+                      -
                     </button>
 
                     <span>
@@ -247,11 +251,11 @@ const handleCheckout = async () => {
                     </span>
 
                     <button
-                    onClick={() =>
+                      onClick={() =>
                         updateQty(item.id_produk, "plus")
-                    }
+                      }
                     >
-                    +
+                      +
                     </button>
 
                   </div>
@@ -267,7 +271,7 @@ const handleCheckout = async () => {
                   <button
                     className="delete-btn"
                     onClick={() => removeItem(item.id_produk)}
-                    >
+                  >
                     🗑
                   </button>
 
@@ -303,102 +307,292 @@ const handleCheckout = async () => {
 
             </div>
 
+            <div className="summary-row">
+
+              <span>Diskon</span>
+
+              <span style={{ color: "#22c55e" }}>
+                -Rp0
+              </span>
+
+            </div>
+
             <div className="summary-total">
 
-            <span>Total</span>
+              <span>Total</span>
 
-            <span>
+              <span>
                 Rp{total.toLocaleString("id-ID")}
-            </span>
+              </span>
 
             </div>
 
             {/* PAYMENT */}
             <div className="payment-section">
 
-            <h3>
+              <h3>
                 Metode Pembayaran
-            </h3>
+              </h3>
 
-            <div className="payment-methods">
+              <div className="payment-methods">
 
-                <button className="payment-btn active">
-                🏦
-                <span>Transfer Bank</span>
+                <button
+                  className={`payment-btn ${
+                    paymentMethod === "Transfer Bank"
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setPaymentMethod("Transfer Bank")
+                  }
+                >
+                  🏦
+                  <span>Transfer Bank</span>
                 </button>
 
-                <button className="payment-btn">
-                💳
-                <span>E-Wallet</span>
+                <button
+                  className={`payment-btn ${
+                    paymentMethod === "E-Wallet"
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setPaymentMethod("E-Wallet")
+                  }
+                >
+                  💳
+                  <span>E-Wallet</span>
                 </button>
+
+                <button
+                  className={`payment-btn ${
+                    paymentMethod === "COD"
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setPaymentMethod("COD")
+                  }
+                >
+                  🏠
+                  <span>COD</span>
+                </button>
+
+              </div>
 
             </div>
 
-            </div>
+            {/* INFO PEMBAYARAN */}
+            {paymentMethod !== "COD" && (
+
+              <div className="payment-info-card">
+
+                <div className="payment-info-header">
+
+                  <div className="payment-info-icon">
+
+                    {paymentMethod === "Transfer Bank"
+                      ? "🏦"
+                      : "💳"}
+
+                  </div>
+
+                  <div>
+
+                    <h4>
+                      {paymentMethod}
+                    </h4>
+
+                  </div>
+
+                </div>
+
+                <div className="payment-info-body">
+
+                  {paymentMethod === "Transfer Bank" ? (
+
+                    <>
+
+                      <div className="info-row">
+
+                        <span>
+                          Nama Bank
+                        </span>
+
+                        <strong>
+                          BCA
+                        </strong>
+
+                      </div>
+
+                      <div className="info-row">
+
+                        <span>
+                          Nama Penerima
+                        </span>
+
+                        <strong>
+                          UD Lestari / Lestari Store
+                        </strong>
+
+                      </div>
+
+                      <div className="info-row">
+
+                        <span>
+                          Nomor Rekening
+                        </span>
+
+                      </div>
+
+                      <div className="rekening-box">
+
+                        <strong>
+                          1234567890
+                        </strong>
+
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText("1234567890");
+                          }}
+                        >
+                          Salin
+                        </button>
+
+                      </div>
+
+                    </>
+
+                  ) : (
+
+                    <>
+
+                      <div className="info-row">
+
+                        <span>
+                          Daftar E-Wallet
+                        </span>
+
+                        <strong>
+                          Gopay/Dana/Ovo
+                        </strong>
+
+                      </div>
+
+                      <div className="info-row">
+
+                        <span>
+                          Nama Penerima
+                        </span>
+
+                        <strong>
+                          UD Lestari / Lestari Store
+                        </strong>
+
+                      </div>
+
+                      <div className="info-row">
+
+                        <span>
+                          Nomor E-Wallet
+                        </span>
+
+                      </div>
+
+                      <div className="rekening-box">
+
+                        <strong>
+                          085827662727
+                        </strong>
+
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText("085827662727");
+                          }}
+                        >
+                          Salin
+                        </button>
+
+                      </div>
+
+                    </>
+
+                  )}
+
+                </div>
+
+              </div>
+
+            )}
 
             {/* UPLOAD */}
-            <div className="upload-section">
+            {paymentMethod !== "COD" && (
 
-            <h3>
-                Upload Bukti Pembayaran
-            </h3>
-            <label className="upload-box">
+              <div className="upload-section">
 
-                <input
-              type="file"
-              hidden
-              onChange={(e) => {
+                <h3>
+                  Upload Bukti Pembayaran
+                </h3>
 
-                setSelectedFile(
-                  e.target.files[0]
-                );
+                <label className="upload-box">
 
-                setUploadSuccess(false);
+                  <input
+                    type="file"
+                    hidden
+                    onChange={(e) => {
 
-              }
-            }
-            />
+                      setSelectedFile(
+                        e.target.files[0]
+                      );
 
-                <div className="upload-icon">
-                ☁️
-                </div>
+                      setUploadSuccess(false);
 
-                <p>
-                Klik untuk upload bukti transfer
-                </p>
+                    }}
+                  />
 
-                <span>
-                Format: JPG, PNG, PDF
-                </span>
-                {selectedFile && (
+                  <div className="upload-icon">
+                    ☁️
+                  </div>
 
-                <div className="uploaded-file">
+                  <p>
+                    Klik untuk upload bukti transfer
+                  </p>
 
-                  📄 {selectedFile.name}
+                  <span>
+                    Format: JPG, PNG, PDF
+                  </span>
 
-                </div>
+                  {selectedFile && (
 
-              )}
+                    <div className="uploaded-file">
 
-              {uploadSuccess && (
+                      📄 {selectedFile.name}
 
-                <div className="upload-success">
+                    </div>
 
-                  ✅ Bukti pembayaran berhasil diupload
+                  )}
 
-                </div>
+                  {uploadSuccess && (
 
-              )}
+                    <div className="upload-success">
 
-            </label>
+                      ✅ Bukti pembayaran berhasil diupload
 
-            </div>
+                    </div>
+
+                  )}
+
+                </label>
+
+              </div>
+
+            )}
 
             <button
-            className="checkout-btn"
-            onClick={handleCheckout}
+              className="checkout-btn"
+              onClick={handleCheckout}
             >
-            ✔ Konfirmasi Pesanan
+              ✔ Konfirmasi Pesanan
             </button>
 
           </div>

@@ -43,6 +43,7 @@ SELECT
   c.username AS customer,
   pay.metode_pembayaran AS method,
   p.total_harga AS amount,
+  pay.bukti_transfer,
 
   TO_CHAR(
     p.tanggal_pesanan,

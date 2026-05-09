@@ -28,6 +28,9 @@ $total = (int)$data['total'];
 
 $id_customer = 1;
 
+$metode =
+  $data['metode_pembayaran'];
+
 /* INSERT PESANAN */
 $query = "
 
@@ -109,7 +112,7 @@ $payment = pg_query($conn, "
 
   (
     $id_pesanan,
-    'Transfer Bank',
+    '$metode',
     'Belum Diverifikasi'
   )
 
