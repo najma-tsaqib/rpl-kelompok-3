@@ -118,13 +118,7 @@ const filteredOrders = orders.filter(order => {
 
                 <td>{order.nama_pelanggan}</td>
 
-                <td>
-                    {new Date(order.tanggal_pesanan).toLocaleDateString('id-ID', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric'
-                    })}
-                  </td>
+                <td>{order.tanggal}</td>
 
                 <td>{order.produk}</td>
 
@@ -144,29 +138,30 @@ const filteredOrders = orders.filter(order => {
                   </span>
                 </td>
 
-                <td className="action-cell">
+               <td className="action-cell">
 
-                  {order.status === "Pending" && (
-                    <>
-                      <button className="btn-success"   onClick={() => updateStatus(order.id_pesanan, "Dikonfirmasi")}>Konfirmasi</button>
-                      <button className="btn-detail">Detail</button>
-                      <button className="btn-danger" onClick={() => updateStatus(order.id_pesanan, "Ditolak")}>Tolak</button>
-                    </>
-                  )}
+                <button
+                  className="btn-success"
+                  onClick={() => updateStatus(order.id_pesanan, "Dikonfirmasi")}
+                >
+                  Konfirmasi
+                </button>
 
-                  {order.status === "Dikonfirmasi" && (
-                    <>
-                      <button className="btn-detail">Detail</button>
-                    </>
-                  )}
+                <button
+                  className="btn-detail"
+                  onClick={() => updateStatus(order.id_pesanan, "Selesai")}
+                >
+                  Selesai
+                </button>
 
-                  {order.status === "Selesai" && (
-                    <>
-                      <button className="btn-detail">Detail</button>
-                    </>
-                  )}
+                <button
+                  className="btn-danger"
+                  onClick={() => updateStatus(order.id_pesanan, "Dibatalkan")}
+                >
+                  Cancel
+                </button>
 
-                </td>
+              </td>
 
               </tr>
             ))}

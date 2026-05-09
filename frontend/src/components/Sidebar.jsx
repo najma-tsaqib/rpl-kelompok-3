@@ -26,7 +26,6 @@ export default function Sidebar({ currentPage, setCurrentPage, setIsLogin }) {
       label: 'PENGATURAN',
       items: [
         { id: 'customers', label: 'Pelanggan', icon: '👥' },
-        { id: 'stock', label: 'Stok', icon: '📦' },
       ]
       
     }
