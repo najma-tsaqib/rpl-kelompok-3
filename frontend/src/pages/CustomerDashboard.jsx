@@ -20,6 +20,8 @@ export default function CustomerDashboard({
 
   }, []);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const getEmoji = (nama) => {
   const n = nama.toLowerCase();
 
@@ -34,12 +36,19 @@ export default function CustomerDashboard({
   return "📦";
 };
 
-const filteredProducts =
-  selectedCategory === "Semua"
-    ? products
-    : products.filter(
-        (item) => item.kategori === selectedCategory
-      );
+const filteredProducts = products.filter((item) => {
+
+  const cocokKategori =
+    selectedCategory === "Semua" ||
+    item.kategori === selectedCategory;
+
+  const cocokSearch =
+    item.nama_produk
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+  return cocokKategori && cocokSearch;
+});
 
 const categories = [
   "Semua",
@@ -51,8 +60,9 @@ const categories = [
       <Navbar
         isLogin={isLogin}
         role={role}
-        />
-
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <div className="customer-container">
 
 <div className="customer-sidebar">

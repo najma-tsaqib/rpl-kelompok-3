@@ -3,7 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import logo from "../assets/logo.png";
 
-function Navbar({ isLogin, role }) {
+function Navbar({
+  isLogin,
+  role,
+  searchTerm,
+  setSearchTerm
+}) {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,10 +38,12 @@ const showSearch =
     {showSearch && (
       <div className="navbar-search">
 
-        <input
-          type="text"
-          placeholder="Cari produk ayam..."
-        />
+      <input
+        type="text"
+        placeholder="Cari produk ayam..."
+        value={searchTerm || ""}
+        onChange={(e) => setSearchTerm?.(e.target.value)}
+      />
 
         <button>
           <i className="fas fa-search"></i>
