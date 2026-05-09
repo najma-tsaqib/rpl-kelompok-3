@@ -45,6 +45,13 @@ if ($method === 'POST' && isset($_POST['id_produk'])) {
     $harga = (int)$_POST['harga'];
     $stok = (int)$_POST['stok'];
 
+    if ($stok < 0) {
+        echo json_encode([
+            "error" => "Stok tidak boleh minus"
+        ]);
+        exit;
+    }
+
     $fotoPath = $_POST['foto_lama'] ?? "";
 
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
@@ -90,6 +97,14 @@ if ($method === 'POST') {
     $kategori = pg_escape_string($conn, $_POST['kategori']);
     $harga = (int)$_POST['harga'];
     $stok = (int)$_POST['stok'];
+
+
+if ($stok < 0) {
+    echo json_encode([
+        "error" => "Stok tidak boleh minus"
+    ]);
+    exit;
+}
 
     $fotoPath = "";
 
@@ -138,6 +153,13 @@ if ($method === 'PUT') {
     $kategori = pg_escape_string($conn, $input['kategori']);
     $harga = (int)$input['harga'];
     $stok = (int)$input['stok'];
+
+    if ($stok < 0) {
+        echo json_encode([
+            "error" => "Stok tidak boleh minus"
+        ]);
+        exit;
+    }
 
     # 🔥 kalau foto dikirim (edit), pakai itu
     $foto = pg_escape_string($conn, $input['foto'] ?? '');
