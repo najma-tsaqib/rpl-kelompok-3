@@ -12,9 +12,19 @@ function Navbar({
 
   const navigate = useNavigate();
   const location = useLocation();
-const showSearch =
-  location.pathname === "/" ||
-  location.pathname === "/customer";
+  const showSearch =
+    location.pathname === "/" ||
+    location.pathname === "/customer" ||
+    location.pathname === "/cart";
+
+  const cart =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+  const totalCart = cart.reduce(
+    (acc, item) => acc + item.qty,
+    0
+  );
+      
   return (
 
     <nav className="navbar">
@@ -94,18 +104,23 @@ const showSearch =
         {isLogin && role === "customer" && (
           <>
 
-            <span className="nav-link">
+            <span
+              className="nav-link"
+              onClick={() => navigate("/orders")}
+            >
               Pesanan
             </span>
 
-            <div className="cart-btn">
+            <div
+              className="cart-btn"
+              onClick={() => navigate("/cart")}
+            >
 
               <i className="fas fa-shopping-cart"></i>
 
-              <div className="cart-badge">
-                2
-              </div>
-
+            <div className="cart-badge">
+              {totalCart}
+            </div>
             </div>
 
             <div className="profile-circle">

@@ -55,6 +55,29 @@ const categories = [
   ...new Set(products.map((item) => item.kategori))
 ];
 
+const addToCart = (product) => {
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const existing = cart.find(
+    (item) => item.id_produk === product.id_produk
+  );
+
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({
+      ...product,
+      qty: 1
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert("Produk masuk keranjang");
+};
+
+
   return (
     <>
       <Navbar
@@ -177,7 +200,10 @@ const categories = [
                 </span>
                 </div>
 
-                  <button className="product-cart-btn">
+                  <button
+                    className="product-cart-btn"
+                    onClick={() => addToCart(item)}
+                  >
                     <i className="fas fa-cart-plus"></i>
                     Tambah
                   </button>
