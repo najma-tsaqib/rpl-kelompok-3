@@ -9,6 +9,7 @@ export default function Cart({ isLogin, role }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Transfer Bank");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
 
@@ -593,7 +594,21 @@ export default function Cart({ isLogin, role }) {
 
             <button
               className="checkout-btn"
-              onClick={handleCheckout}
+              onClick={() => {
+
+                if (
+                  paymentMethod !== "COD" &&
+                  !selectedFile
+                ) {
+                  alert(
+                    "Silakan upload bukti pembayaran terlebih dahulu."
+                  );
+
+                  return;
+                }
+
+                setShowConfirm(true);
+              }}
             >
               ✔ Konfirmasi Pesanan
             </button>
@@ -603,6 +618,57 @@ export default function Cart({ isLogin, role }) {
         </div>
 
       </div>
+      {showConfirm && (
+
+  <div className="modal-overlay">
+
+    <div className="confirm-modal">
+
+      <div className="confirm-icon">
+        🛡️
+      </div>
+
+      <h2>
+        Apakah Pesanan Sudah Sesuai?
+      </h2>
+
+      <p>
+        Pastikan semua detail pesanan sudah benar.
+      </p>
+
+      <div className="warning-box">
+        ⚠️ Periksa kembali produk, jumlah,
+        dan alamat pengiriman sebelum melanjutkan.
+      </div>
+
+      <div className="danger-box">
+        ❗ Setelah dikonfirmasi,
+        pesanan tidak dapat dibatalkan.
+      </div>
+
+      <div className="modal-actions">
+
+        <button
+          className="cancel-btn"
+          onClick={() => setShowConfirm(false)}
+        >
+          Batalkan
+        </button>
+
+        <button
+          className="confirm-btn"
+          onClick={handleCheckout}
+        >
+          Konfirmasi Pesanan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+)}
     </>
   );
 }
