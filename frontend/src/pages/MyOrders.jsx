@@ -21,24 +21,56 @@ function MyOrders({ isLogin, role }) {
 
   }, []);
 
-  const filteredOrders =
-    activeTab === "Semua"
-      ? orders
-      : orders.filter(
-          item =>
-            item.status === activeTab
+const normalizeStatus = (status) => {
+
+  const s =
+    status?.trim().toLowerCase();
+
+  if (
+    s === "pending" ||
+    s === "menunggu konfirmasi"
+  ) {
+    return "menunggu konfirmasi";
+  }
+
+  if (s === "dikonfirmasi") {
+    return "dikonfirmasi";
+  }
+
+  if (s === "selesai") {
+    return "selesai";
+  }
+
+  return s;
+};
+
+const filteredOrders =
+  activeTab === "Semua"
+    ? orders
+    : orders.filter(item => {
+
+        return (
+          normalizeStatus(item.status) ===
+          activeTab
+            .trim()
+            .toLowerCase()
         );
 
-  const getStatusClass = (status) => {
+      });
 
-    if (status === "Selesai")
-      return "success";
+const getStatusClass = (status) => {
 
-    if (status === "Dikonfirmasi")
-      return "confirm";
+  const s =
+    normalizeStatus(status);
 
-    return "pending";
-  };
+  if (s === "selesai")
+    return "success";
+
+  if (s === "dikonfirmasi")
+    return "confirm";
+
+  return "pending";
+};
 
   return (
     <>
@@ -106,7 +138,7 @@ function MyOrders({ isLogin, role }) {
                 <div
                   className={`status ${getStatusClass(order.status)}`}
                 >
-                  {order.status}
+                  {order.status?.trim()}
                 </div>
               </div>
 
