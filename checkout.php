@@ -26,7 +26,8 @@ $data =
 $cart = $data['cart'];
 $total = (int)$data['total'];
 
-$id_customer = 1;
+$id_customer =
+  (int)$data['id_customer'];
 
 $metode =
   $data['metode_pembayaran'];

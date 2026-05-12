@@ -109,6 +109,9 @@ export default function Cart({ isLogin, role }) {
     );
   };
 
+  const user =
+  JSON.parse(localStorage.getItem("user"));
+
   const handleCheckout = async () => {
 
     const checkoutRes = await fetch(
@@ -119,11 +122,11 @@ export default function Cart({ isLogin, role }) {
         headers: {
           "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
           cart,
           total,
-          metode_pembayaran: paymentMethod
+          metode_pembayaran: paymentMethod,
+          id_customer: user.id_customer
         })
       }
     );

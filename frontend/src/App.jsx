@@ -21,6 +21,7 @@ import Stock from "./pages/Stock";
 import Register from "./pages/Register"; // 🔥 INI PENTING (bukan ./Register)
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
+import MyOrders from "./pages/MyOrders";
 
 // auth
 import Login from "./Login";
@@ -146,6 +147,16 @@ const [role, setRole] = useState(
         }
       />
 
+                <Route
+            path="/orders"
+            element={
+              <MyOrders
+                isLogin={isLogin}
+                role={role}
+              />
+            }
+          />
+
           <Route
       path="/success"
       element={
@@ -155,6 +166,7 @@ const [role, setRole] = useState(
         />
       }
     />
+
       </Routes>
     </BrowserRouter>
   );

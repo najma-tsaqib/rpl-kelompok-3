@@ -41,6 +41,10 @@ function Login({
       if (data.status === "success") {
 
         localStorage.setItem("isLogin", "true");
+        localStorage.setItem(
+                              "user",
+                              JSON.stringify(data.user)
+                            );
         localStorage.setItem("role", data.role);
 
         setIsLogin(true);

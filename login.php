@@ -31,11 +31,19 @@ $stmt->execute(['username' => $username]);
 $user = $stmt->fetch();
 
 if ($user) {
+
     if (password_verify($password, $user['password'])) {
+
         echo json_encode([
             "status" => "success",
-            "role" => "customer"
+            "role" => "customer",
+
+            "user" => [
+                "id_customer" => $user['id_customer'],
+                "username" => $user['username']
+            ]
         ]);
+
         exit;
     }
 }
