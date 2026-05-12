@@ -103,9 +103,10 @@ const [role, setRole] = useState(
                 setIsLogin={setIsLogin} // 🔥 tambah ini
               />
                 <div className="main-content">
-                  <Header
-                    toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-                  />
+                    <Header
+                      toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+                      setCurrentPage={setCurrentPage}
+                    />
                   <div className="page-content">{renderPage()}</div>
                 </div>
               </div>
