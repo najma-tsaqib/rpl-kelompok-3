@@ -182,6 +182,9 @@ function Login({
                 fontWeight: "700",
                 cursor: "pointer",
               }}
+              onClick={() =>
+                navigate("/forgot-password")
+              }
             >
               Lupa password?
             </a>

@@ -22,6 +22,9 @@ import Register from "./pages/Register"; // 🔥 INI PENTING (bukan ./Register)
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
 import MyOrders from "./pages/MyOrders";
+import ForgotPassword from "./ForgotPassword";
+import VerifyOTP from "./VerifyOTP";
+import ResetPassword from "./ResetPassword";
 
 // auth
 import Login from "./Login";
@@ -88,6 +91,21 @@ const [role, setRole] = useState(
             />
           }
         />
+
+        <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
+
+          <Route
+            path="/verify-otp"
+            element={<VerifyOTP />}
+          />
+
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
+          />
 
         {/* 📝 REGISTER */}
         <Route path="/register" element={<Register />} />
