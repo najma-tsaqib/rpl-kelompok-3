@@ -3,6 +3,9 @@ import '../styles/Orders.css';
 
 export default function Orders() {
 
+  const [selectedOrder, setSelectedOrder] = useState(null);
+const [showModal, setShowModal] = useState(false);
+
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -18,6 +21,15 @@ export default function Orders() {
     return "badge-warning";
   };
 
+  const openDetail = (order) => {
+  setSelectedOrder(order);
+  setShowModal(true);
+  };
+
+  const closeDetail = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+  };
   // 🔥 ambil data dari backend
 const fetchData = () => {
   fetch("http://localhost/UDLestari/orders.php")
@@ -149,9 +161,9 @@ const filteredOrders = orders.filter(order => {
 
                 <button
                   className="btn-detail"
-                  onClick={() => updateStatus(order.id_pesanan, "Selesai")}
+                  onClick={() => openDetail(order)}
                 >
-                  Selesai
+                  Detail
                 </button>
 
                 <button
@@ -168,6 +180,88 @@ const filteredOrders = orders.filter(order => {
           </tbody>
         </table>
       </div>
+
+      {showModal && selectedOrder && (
+  <div className="modal-overlay">
+    <div className="detail-modal">
+
+      <div className="modal-header">
+        <div>
+          <h2>Detail Pesanan</h2>
+          <p>
+            #ORD-{String(selectedOrder.id_pesanan).padStart(4, '0')}
+          </p>
+        </div>
+
+        <button
+          className="close-btn"
+          onClick={closeDetail}
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="modal-body">
+
+        <div className="detail-grid">
+
+          <div className="detail-item">
+            <span>Nama Pelanggan</span>
+            <strong>{selectedOrder.nama_pelanggan}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Tanggal</span>
+            <strong>{selectedOrder.tanggal}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Produk</span>
+            <strong>{selectedOrder.produk}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Total</span>
+            <strong>Rp{selectedOrder.total}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Pembayaran</span>
+
+            <div>
+              <span className={`badge ${getPaymentBadgeClass(selectedOrder.pembayaran || "Belum Bayar")}`}>
+                {selectedOrder.pembayaran || "Belum Bayar"}
+              </span>
+            </div>
+          </div>
+
+          <div className="detail-item">
+            <span>Status</span>
+
+            <div>
+              <span className={`badge ${getStatusBadgeClass(selectedOrder.status)}`}>
+                {selectedOrder.status}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="modal-footer">
+        <button
+          className="btn-close"
+          onClick={closeDetail}
+        >
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

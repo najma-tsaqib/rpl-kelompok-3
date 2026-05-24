@@ -9,7 +9,11 @@ export default function Cart({ isLogin, role }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Transfer Bank");
+  const [shippingMethod, setShippingMethod] =
+  useState("Ambil Sendiri");
   const [showConfirm, setShowConfirm] = useState(false);
+
+  
 
   useEffect(() => {
 
@@ -127,6 +131,7 @@ export default function Cart({ isLogin, role }) {
           cart,
           total,
           metode_pembayaran: paymentMethod,
+          metode_pengiriman: shippingMethod,
           id_customer: user.id_customer
         })
       }
@@ -288,6 +293,85 @@ export default function Cart({ isLogin, role }) {
           </div>
 
           {/* RIGHT */}
+
+          <div className="summary-wrapper">
+
+            {/* METODE PENGIRIMAN */}
+<div className="summary-card">
+
+  <h2>
+    Metode Pengiriman
+  </h2>
+
+<div className="shipping-methods">
+
+  <button
+    className={`shipping-btn ${
+      shippingMethod === "Ambil Sendiri"
+        ? "active"
+        : ""
+    }`}
+    onClick={() =>
+      setShippingMethod("Ambil Sendiri")
+    }
+  >
+
+    <div className="shipping-icon">
+      📦
+    </div>
+
+    <span>
+      Ambil Sendiri
+    </span>
+
+  </button>
+
+  <button
+    className={`shipping-btn ${
+      shippingMethod === "Kurir Antar"
+        ? "active"
+        : ""
+    }`}
+    onClick={() =>
+      setShippingMethod("Kurir Antar")
+    }
+  >
+
+    <div className="shipping-icon gray">
+      🚚
+    </div>
+
+    <span>
+      Kurir Antar
+    </span>
+
+  </button>
+
+</div>
+
+  <div className="pickup-info">
+
+    <div className="pickup-icon">
+      📍
+    </div>
+
+    <div>
+
+      <small>
+        Alamat Toko Kami
+      </small>
+
+      <strong>
+        Jl. Merpati No. 123,
+        Kelurahan Sukamaju,
+        Kecamatan Cibeunying
+      </strong>
+
+    </div>
+
+  </div>
+
+</div>
           <div className="summary-card">
 
             <h2>
@@ -618,6 +702,9 @@ export default function Cart({ isLogin, role }) {
         </div>
 
       </div>
+
+      </div>
+      
       {showConfirm && (
 
   <div className="modal-overlay">

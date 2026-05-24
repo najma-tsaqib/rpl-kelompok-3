@@ -8,6 +8,19 @@ export default function Dashboard() {
 
   const [chartData, setChartData] = useState([]);
 
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const openDetail = (order) => {
+    setSelectedOrder(order);
+    setShowModal(true);
+  };
+
+  const closeDetail = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+  };
+
   useEffect(() => {
     fetch(`http://localhost/UDLestari/chart.php?year=${selectedYear}`)
       .then(res => res.json())
@@ -208,9 +221,12 @@ export default function Dashboard() {
                           Konfirmasi
                         </button>
                       )}
-                      <button className="action-btn btn-primary">
-                        Detail
-                      </button>
+                    <button
+                      className="action-btn btn-primary"
+                      onClick={() => openDetail(order)}
+                    >
+                      Detail
+                    </button>
                     </td>
                 </tr>
               ))}
@@ -218,6 +234,52 @@ export default function Dashboard() {
           </table>
         </div>
       </div>
+      {showModal && selectedOrder && (
+  <div className="modal-overlay">
+    <div className="detail-modal">
+
+      <div className="modal-header">
+        <h2>Detail Pesanan</h2>
+
+        <button
+          className="close-btn"
+          onClick={closeDetail}
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="modal-body">
+
+        <div className="detail-grid">
+
+          <div className="detail-item">
+            <span>Pelanggan</span>
+            <strong>{selectedOrder.customer}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Produk</span>
+            <strong>{selectedOrder.product}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Total</span>
+            <strong>{selectedOrder.total}</strong>
+          </div>
+
+          <div className="detail-item">
+            <span>Status</span>
+            <strong>{selectedOrder.status}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
     </div>
   );
 }

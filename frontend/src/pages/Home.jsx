@@ -64,20 +64,6 @@ function Home({ isLogin, role }) {
             untuk keluarga sehat setiap hari.
           </p>
 
-          <div className="hero-buttons">
-
-            <button className="hero-primary">
-              <i className="fas fa-shopping-bag"></i>
-              Belanja Sekarang
-            </button>
-
-            <button className="hero-outline">
-              <i className="fas fa-eye"></i>
-              Lihat Produk
-            </button>
-
-          </div>
-
         </div>
 
         <div className="home-hero-right">

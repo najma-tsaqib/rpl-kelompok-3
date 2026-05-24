@@ -200,23 +200,6 @@ function Login({
             {" "}Login to Continue
           </button>
 
-          <div className="auth-divider">
-            — atau login dengan —
-          </div>
-
-          <div className="social-logins">
-
-            <button className="social-btn">
-              <i
-                className="fab fa-google"
-                style={{ color: "#DB4437" }}
-              ></i>
-
-              {" "}Google
-            </button>
-
-          </div>
-
           <div className="auth-switch">
 
             Belum punya akun?

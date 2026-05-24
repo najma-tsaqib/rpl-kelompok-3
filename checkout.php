@@ -32,6 +32,9 @@ $id_customer =
 $metode =
   $data['metode_pembayaran'];
 
+$metode_pengiriman =
+  $data['metode_pengiriman'];
+
 /* INSERT PESANAN */
 $query = "
 
@@ -41,7 +44,8 @@ INSERT INTO \"UDLestari\".pesanan
   id_customer,
   tanggal_pesanan,
   total_harga,
-  status_pesanan
+  status_pesanan,
+  metode_pengiriman
 )
 
 VALUES
@@ -50,7 +54,8 @@ VALUES
   $id_customer,
   NOW(),
   $total,
-  'Pending'
+  'Pending',
+  '$metode_pengiriman'
 )
 
 RETURNING id_pesanan
@@ -74,6 +79,7 @@ foreach ($cart as $item) {
 
   $subtotal =
     $item['harga'] * $qty;
+    
 
   pg_query($conn, "
 
