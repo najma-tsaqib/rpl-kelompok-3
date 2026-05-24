@@ -24,6 +24,17 @@ export default function Register() {
     });
   };
 
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!/^[0-9]{10,15}$/.test(form.phone)) {
+    alert("Nomor telepon harus angka dan 10-15 digit");
+    return;
+  }
+
+  // lanjut fetch/register
+};
+
   const handleRegister = async () => {
 
     if (form.password !== form.confirmPassword) {
@@ -123,6 +134,7 @@ export default function Register() {
               onChange={handleChange}
             />
           </div>
+          
 
           <div className="register-group">
             <label className="register-label">Password</label>

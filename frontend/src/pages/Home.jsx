@@ -7,6 +7,7 @@ import heroImage from "../assets/nyam.png";
 function Home({ isLogin, role }) {
 
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState("Semua Produk");
 
@@ -25,13 +26,21 @@ function Home({ isLogin, role }) {
     ...new Set(products.map((item) => item.kategori))
   ];
 
-  const filteredProducts =
-    selectedCategory === "Semua Produk"
-      ? products
-      : products.filter(
-          (item) =>
-            item.kategori === selectedCategory
-        );
+const filteredProducts = products.filter((item) => {
+
+  const matchCategory =
+    selectedCategory === "Semua Produk" ||
+    item.kategori === selectedCategory;
+
+  const matchSearch =
+    item.nama_produk
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+  return matchCategory && matchSearch;
+
+});
+
 
   return (
 
@@ -40,6 +49,8 @@ function Home({ isLogin, role }) {
       <Navbar
         isLogin={isLogin}
         role={role}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
       {/* HERO */}

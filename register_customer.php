@@ -13,6 +13,16 @@ $email = $data->email ?? '';
 $phone = $data->phone ?? '';
 $password = $data->password ?? '';
 
+if (!preg_match('/^[0-9]{10,15}$/', $phone)) {
+
+    echo json_encode([
+        "status" => "error",
+        "message" => "Nomor telepon harus angka dan 10-15 digit"
+    ]);
+
+    exit;
+}
+
 // HASH PASSWORD (WAJIB)
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
