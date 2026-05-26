@@ -15,7 +15,7 @@ $query = $pdo->query("
         c.email,
         c.nomor_telepon AS phone,
 
-        COUNT(p.id_pesanan) AS totalOrders
+        COUNT(p.id_pesanan) AS total_pesanan
 
     FROM \"UDLestari\".customer c
 

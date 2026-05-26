@@ -16,6 +16,9 @@ function Login({
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
+  const [rememberMe, setRememberMe] =
+  useState(false);
+
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
@@ -39,13 +42,23 @@ function Login({
       const data = await res.json();
 
       if (data.status === "success") {
-
-        localStorage.setItem("isLogin", "true");
         localStorage.setItem(
-                              "user",
-                              JSON.stringify(data.user)
-                            );
-        localStorage.setItem("role", data.role);
+        "isLogin",
+        "true"
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...data.user,
+          role: data.role
+        })
+      );
+
+      localStorage.setItem(
+        "role",
+        data.role
+      );
 
         setIsLogin(true);
         setRole(data.role);
@@ -172,7 +185,13 @@ function Login({
                 fontSize: "13px",
               }}
             >
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) =>
+                  setRememberMe(e.target.checked)
+                }
+              />
               Ingat saya
             </label>
 

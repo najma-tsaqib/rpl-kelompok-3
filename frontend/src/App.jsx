@@ -44,7 +44,11 @@ const [role, setRole] = useState(
   const renderPage = () => {
     switch (currentPage) {
       case "dashboard":
-        return <Dashboard />;
+        return (
+          <Dashboard
+            setCurrentPage={setCurrentPage}
+          />
+        );
       case "orders":
         return <Orders />;
       case "products":

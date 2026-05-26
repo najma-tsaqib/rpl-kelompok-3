@@ -18,13 +18,26 @@ function Navbar({
     location.pathname === "/cart";
 
   const cart =
-  JSON.parse(localStorage.getItem("cart")) || [];
+  JSON.parse(
+    localStorage.getItem("cart") || "[]"
+  );
 
   const totalCart = cart.reduce(
     (acc, item) => acc + item.qty,
     0
   );
-      
+  
+  const user =
+  JSON.parse(
+    localStorage.getItem("user") || "null"
+  );
+
+  const isLoggedIn = !!user;
+
+  const userRole =
+    user?.role || null;
+
+
   return (
 
     <nav className="navbar">
@@ -80,7 +93,7 @@ function Navbar({
         </span>
 
         {/* BELUM LOGIN */}
-        {!isLogin && (
+        {!isLoggedIn  && (
           <>
 
             <button
@@ -101,7 +114,7 @@ function Navbar({
         )}
 
         {/* CUSTOMER LOGIN */}
-        {isLogin && role === "customer" && (
+        {isLoggedIn && userRole === "customer" && (
           <>
 
             <span

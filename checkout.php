@@ -24,7 +24,7 @@ $data =
   );
 
 $cart = $data['cart'];
-$total = (int)$data['total'];
+$total = 0;
 
 $id_customer =
   (int)$data['id_customer'];
@@ -77,10 +77,41 @@ foreach ($cart as $item) {
   $qty =
     (int)$item['qty'];
 
-  $subtotal =
-    $item['harga'] * $qty;
-    
+  /* AMBIL HARGA ASLI PRODUK */
+$getProduk = pg_query($conn, "
 
+  SELECT harga, stok
+  FROM \"UDLestari\".produk
+  WHERE id_produk = $id_produk
+
+  ");
+
+  $produk =
+    pg_fetch_assoc($getProduk);
+
+  $hargaAsli =
+    (int)$produk['harga'];
+
+  $stokSekarang =
+    (int)$produk['stok'];
+
+$subtotal =
+  $hargaAsli * $qty;
+
+$total += $subtotal;
+
+if ($stokSekarang < $qty) {
+
+  echo json_encode([
+    "success" => false,
+    "message" => "Stok tidak cukup"
+  ]);
+
+  exit;
+
+}
+
+  /* INSERT DETAIL */
   pg_query($conn, "
 
     INSERT INTO \"UDLestari\".detail_pesanan
@@ -100,9 +131,30 @@ foreach ($cart as $item) {
       $qty,
       $subtotal
     )
+  ");
+
+  /* UPDATE STOK */
+  pg_query($conn, "
+
+    UPDATE \"UDLestari\".produk
+
+    SET stok = stok - $qty
+
+    WHERE id_produk = $id_produk
 
   ");
+
 }
+
+pg_query($conn, "
+
+  UPDATE \"UDLestari\".pesanan
+
+  SET total_harga = $total
+
+  WHERE id_pesanan = $id_pesanan
+
+");
 
 /* PEMBAYARAN */
 $payment = pg_query($conn, "

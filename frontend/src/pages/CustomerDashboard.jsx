@@ -57,22 +57,54 @@ const categories = [
 
 const addToCart = (product) => {
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const user =
+    JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
+
+  if (!user) {
+
+    alert("Silakan login dulu");
+
+    window.location.href = "/login";
+
+    return;
+  }
+
+  const cart =
+    JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
 
   const existing = cart.find(
     (item) => item.id_produk === product.id_produk
   );
 
-  if (existing) {
-    existing.qty += 1;
-  } else {
+if (existing) {
+
+  if (existing.qty >= product.stok) {
+
+    alert("Stok tidak cukup");
+
+    return;
+
+  }
+
+  existing.qty += 1;
+
+} else {
+
     cart.push({
       ...product,
       qty: 1
     });
+
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
 
   alert("Produk masuk keranjang");
 };
@@ -120,15 +152,18 @@ const addToCart = (product) => {
   <div className="customer-sidebar-footer">
 
     <button
-      className="customer-logout-btn"
-      onClick={() => {
+    onClick={() => {
 
-        localStorage.removeItem("isLogin");
-        localStorage.removeItem("role");
+      localStorage.removeItem("isLogin");
+      localStorage.removeItem("role");
+      localStorage.removeItem("user");
+      localStorage.removeItem("cart");
 
-        window.location.href = "/";
+      sessionStorage.clear();
 
-      }}
+      window.location.href = "/";
+
+    }}
     >
       <i className="fas fa-sign-out-alt"></i>
       Logout
@@ -200,13 +235,21 @@ const addToCart = (product) => {
                 </span>
                 </div>
 
-                  <button
-                    className="product-cart-btn"
-                    onClick={() => addToCart(item)}
-                  >
-                    <i className="fas fa-cart-plus"></i>
-                    Tambah
-                  </button>
+                <button
+                  className={`product-cart-btn ${
+                    item.stok <= 0 ? "disabled" : ""
+                  }`}
+                  onClick={() => addToCart(item)}
+                  disabled={item.stok <= 0}
+                >
+
+                  <i className="fas fa-cart-plus"></i>
+
+                  {item.stok <= 0
+                    ? "Stok Habis"
+                    : "Tambah"}
+
+                </button>
 
                 </div>
 

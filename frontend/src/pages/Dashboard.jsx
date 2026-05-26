@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import '../styles/Dashboard.css';
 
 
-export default function Dashboard() {
+export default function Dashboard({
+    setCurrentPage
+  }) {
   const [selectedYear, setSelectedYear] = useState("2026")
 
   const [chartData, setChartData] = useState([]);
+
+  const [summary, setSummary] = useState({});
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -34,40 +40,91 @@ export default function Dashboard() {
       });
   }, [selectedYear]);
 
-  const stats = [
-    {
-      label: 'Total Pesanan',
-      value: '48',
-      change: '+12%',
-      changeType: 'positive',
-      changeText: 'dari kemarin',
-      icon: '📦'
-    },
-    {
-      label: 'Stok Tersisa',
-      value: '324 kg',
-      change: '-5%',
-      changeType: 'negative',
-      changeText: 'dari minggu lalu',
-      icon: '📊'
-    },
-    {
-      label: 'Total Pelanggan',
-      value: '156',
-      change: '+3 baru',
-      changeType: 'positive',
-      changeText: 'hari ini',
-      icon: '👥'
-    },
-    {
-      label: 'Pendapatan Hari Ini',
-      value: 'Rp2,4jt',
-      change: '+8%',
-      changeType: 'positive',
-      changeText: 'dari kemarin',
-      icon: '💰'
-    }
-  ];
+  useEffect(() => {
+
+  fetch("http://localhost/UDLestari/dashboard_summary.php")
+    .then(res => res.json())
+    .then(data => {
+
+      console.log("SUMMARY:", data);
+
+      setSummary(data);
+
+    });
+
+}, []);
+
+const stats = [
+
+  {
+    label: 'Total Pesanan',
+    value: summary.orders || 0,
+
+    change:
+      `${summary.orders_percent || 0}%`,
+
+    changeType:
+      summary.orders_percent >= 0
+      ? 'positive'
+      : 'negative',
+
+    changeText: 'dari kemarin',
+
+    icon: '📦'
+  },
+
+  {
+    label: 'Stok Tersisa',
+
+    value:
+      `${summary.stock || 0} kg`,
+
+    change: '',
+
+    changeType: 'neutral',
+
+    changeText: 'stok tersedia',
+
+    icon: '📊'
+  },
+
+  {
+    label: 'Total Pelanggan',
+
+    value:
+      summary.customers || 0,
+
+    change:
+      `+${summary.new_customers || 0}`,
+
+    changeType: 'positive',
+
+    changeText: 'baru hari ini',
+
+    icon: '👥'
+  },
+
+  {
+    label: 'Pendapatan Hari Ini',
+
+    value:
+      `Rp${Number(summary.income || 0)
+        .toLocaleString("id-ID")}`,
+
+    change:
+      `${summary.income_percent || 0}%`,
+
+    changeType:
+      summary.income_percent >= 0
+      ? 'positive'
+      : 'negative',
+
+    changeText: 'dari kemarin',
+
+    icon: '💰'
+  }
+
+];
 
   const topProducts = [
     { name: 'Ayam 1 Ekor', emoji: '🐔', percentage: 85 },
@@ -189,7 +246,14 @@ export default function Dashboard() {
       <div className="card orders-container">
         <div className="card-header">
           <h2 className="card-title">Pesanan Terbaru</h2>
-          <a href="#" className="link-button">Lihat Semua</a>
+          <span
+            className="link-button"
+            onClick={() => {
+              setCurrentPage("orders");
+            }}
+          >
+            Lihat Semua
+          </span>
         </div>
         <div className="table-container">
           <table>

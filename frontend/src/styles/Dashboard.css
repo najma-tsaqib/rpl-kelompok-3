@@ -423,6 +423,11 @@ td:last-child {
   border-radius: 10px;
   font-size: 13px;
   text-decoration: none;
+
+  position: relative;
+  z-index: 10000;
+
+  cursor: pointer;
 }
 
 .table-container {

@@ -65,17 +65,37 @@
 
 .table-container {
   overflow-x: auto;
+  overflow-y: visible;
   margin: 0;
+  width: 100%;
 }
 
-.card {
+.orders-card {
   padding: 0;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.orders-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 24px;
 }
 
 table {
   width:100%;
   border-collapse: collapse;
   font-size: 14px;
+}
+
+.orders-table {
+  width: 100%;
+  min-width: 1200px;
+  border-collapse: collapse;
 }
 
 thead {
@@ -88,6 +108,11 @@ th {
   font-size: 12px;
   color: #6B7280;
   font-weight: 600;
+}
+
+td,
+th {
+  white-space: nowrap;
 }
 
 tbody tr {
@@ -365,16 +390,19 @@ td {
   color: #9CA3AF;
 }
 
-.modal-overlay{
+.modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
 
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
-  z-index: 9999;
+  background: rgba(0,0,0,0.45);
+
+  z-index: 999999;
+
+  overflow: auto;
 }
 
 .detail-modal{
@@ -386,6 +414,9 @@ td {
   box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 
   animation: popup .2s ease;
+
+  position: relative;
+  z-index: 1000000;
 }
 
 @keyframes popup{
@@ -483,3 +514,4 @@ td {
 
   cursor: pointer;
 }
+

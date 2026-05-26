@@ -73,6 +73,7 @@ export default function Payment() {
 
     <div className="payment-page">
 
+      {/* HEADER */}
       <div className="payment-header">
 
         <div>
@@ -89,8 +90,10 @@ export default function Payment() {
 
       </div>
 
+      {/* CARD */}
       <div className="payment-card">
 
+        {/* CARD HEADER */}
         <div className="payment-card-header">
 
           <h2>
@@ -99,123 +102,146 @@ export default function Payment() {
 
         </div>
 
-        <table className="payment-table">
+        {/* TABLE CONTAINER */}
+        <div className="payment-table-container">
 
-          <thead>
-            <tr>
-              <th>NO. PESANAN</th>
-              <th>PELANGGAN</th>
-              <th>METODE</th>
-              <th>JUMLAH</th>
-              <th>TANGGAL UPLOAD</th>
-              <th>BUKTI</th>
-              <th>STATUS</th>
-              <th>AKSI</th>
-            </tr>
-          </thead>
+          <table className="payment-table">
 
-          <tbody>
+            <thead>
 
-            {payments.map((payment) => (
-
-              <tr key={payment.id_pembayaran}>
-
-                <td className="order-id">
-                  #ORD-{String(payment.id_pesanan).padStart(4, "0")}
-                </td>
-
-                <td>
-                  {payment.customer}
-                </td>
-
-                <td>
-                  {payment.method}
-                </td>
-
-                <td className="amount">
-                  Rp{Number(payment.amount).toLocaleString("id-ID")}
-                </td>
-
-                <td>
-                  {payment.date}
-                </td>
-
-                <td>
-
-                  {payment.bukti_transfer ? (
-
-                    <a
-                      href={`http://localhost/UDLestari/${payment.bukti_transfer}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="proof-btn"
-                    >
-                      Lihat Bukti
-                    </a>
-
-                  ) : (
-
-                    <span className="no-proof">
-                      Belum Upload
-                    </span>
-
-                  )}
-
-                </td>
-
-                <td>
-
-                  <span
-                    className={`status-badge ${getStatusClass(payment.status)}`}
-                  >
-                    {payment.status}
-                  </span>
-
-                </td>
-
-                <td>
-
-                  {payment.status === "Belum Diverifikasi" ? (
-
-                    <div className="action-buttons">
-
-                      <button
-                        className="verify-btn"
-                        onClick={() =>
-                          handleVerify(payment.id_pembayaran)
-                        }
-                      >
-                        Verifikasi
-                      </button>
-
-                      <button
-                        className="reject-btn"
-                        onClick={() =>
-                          handleReject(payment.id_pembayaran)
-                        }
-                      >
-                        Tolak
-                      </button>
-
-                    </div>
-
-                  ) : (
-
-                    <span className="done-text">
-                      —
-                    </span>
-
-                  )}
-
-                </td>
-
+              <tr>
+                <th>NO. PESANAN</th>
+                <th>PELANGGAN</th>
+                <th>METODE</th>
+                <th>JUMLAH</th>
+                <th>TANGGAL UPLOAD</th>
+                <th>BUKTI</th>
+                <th>STATUS</th>
+                <th>AKSI</th>
               </tr>
 
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
+              {payments.map((payment) => (
+
+                <tr key={payment.id_pembayaran}>
+
+                  {/* ORDER ID */}
+                  <td className="payment-order-id">
+
+                    #ORD-
+                    {String(payment.id_pesanan)
+                      .padStart(4, "0")}
+
+                  </td>
+
+                  {/* CUSTOMER */}
+                  <td>
+                    {payment.customer}
+                  </td>
+
+                  {/* METHOD */}
+                  <td>
+                    {payment.method}
+                  </td>
+
+                  {/* AMOUNT */}
+                  <td className="payment-amount">
+
+                    Rp
+                    {Number(payment.amount)
+                      .toLocaleString("id-ID")}
+
+                  </td>
+
+                  {/* DATE */}
+                  <td>
+                    {payment.date}
+                  </td>
+
+                  {/* PROOF */}
+                  <td>
+
+                    {payment.bukti_transfer ? (
+
+                      <a
+                        href={`http://localhost/UDLestari/${payment.bukti_transfer}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="proof-btn"
+                      >
+                        Lihat Bukti
+                      </a>
+
+                    ) : (
+
+                      <span className="no-proof">
+                        Belum Upload
+                      </span>
+
+                    )}
+
+                  </td>
+
+                  {/* STATUS */}
+                  <td>
+
+                    <span
+                      className={`status-badge ${getStatusClass(payment.status)}`}
+                    >
+                      {payment.status}
+                    </span>
+
+                  </td>
+
+                  {/* ACTION */}
+                  <td>
+
+                    {payment.status === "Belum Diverifikasi" ? (
+
+                      <div className="action-buttons">
+
+                        <button
+                          className="verify-btn"
+                          onClick={() =>
+                            handleVerify(payment.id_pembayaran)
+                          }
+                        >
+                          Verifikasi
+                        </button>
+
+                        <button
+                          className="reject-btn"
+                          onClick={() =>
+                            handleReject(payment.id_pembayaran)
+                          }
+                        >
+                          Tolak
+                        </button>
+
+                      </div>
+
+                    ) : (
+
+                      <span className="done-text">
+                        —
+                      </span>
+
+                    )}
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 

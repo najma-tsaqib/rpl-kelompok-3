@@ -144,17 +144,7 @@ const filteredProducts = products.filter((item) => {
               <h1>Rp50.000/kg</h1>
 
             </div>
-
-            <div className="promo-card red">
-
-              <span>Promo Hari Ini</span>
-
-              <h2>Kepala Ayam + Ceker</h2>
-
-              <h1>Rp15.000/kg</h1>
-
-            </div>
-
+          
           </div>
 
           {/* TITLE */}

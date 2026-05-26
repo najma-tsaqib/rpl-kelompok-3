@@ -1,9 +1,8 @@
-
-
 .payment-page {
   padding: 20px;
 }
 
+/* HEADER */
 .payment-header {
   margin-bottom: 18px;
 }
@@ -20,16 +19,18 @@
   color: #94a3b8;
 }
 
+/* CARD */
 .payment-card {
   background: white;
   border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+
+  box-shadow:
+    0 4px 14px rgba(0,0,0,0.04);
 }
 
+/* CARD HEADER */
 .payment-card-header {
   padding: 20px 24px;
-  border-bottom: none;
 }
 
 .payment-card-header h2 {
@@ -38,60 +39,96 @@
   color: #1e293b;
 }
 
-.payment-table {
+/* TABLE CONTAINER */
+.payment-table-container {
   width: 100%;
-  border-collapse: collapse;
+  overflow-x: auto;
 }
 
+/* TABLE */
+.payment-table {
+  border-collapse: collapse;
+
+  min-width: 1400px;
+  width: max-content;
+}
+
+/* TABLE HEAD */
 .payment-table thead {
   background: #f8fafc;
 }
 
+/* TABLE CELL */
 .payment-table th {
   padding: 14px 18px;
+
   text-align: left;
+
   font-size: 11px;
-  color: #94a3b8;
   font-weight: 700;
+
+  color: #94a3b8;
+
+  white-space: nowrap;
 }
 
 .payment-table td {
-  padding: 16px 18px;
+  padding: 18px;
+
   font-size: 13px;
   color: #1e293b;
+
   vertical-align: middle;
+
+  border-top: 1px solid #f1f5f9;
+
+  white-space: nowrap;
 }
 
-.order-id {
+/* ORDER ID */
+.payment-order-id {
   font-weight: 800;
 }
 
-.amount {
+/* AMOUNT */
+.payment-amount {
   color: #2f80ed;
   font-weight: 800;
 }
 
+/* PROOF BUTTON */
 .proof-btn {
+  display: inline-block;
+
   background: #dbeafe;
   color: #2f80ed;
 
   padding: 8px 12px;
+
   border-radius: 8px;
 
   font-size: 12px;
   font-weight: 700;
 
   text-decoration: none;
-  display: inline-block;
+
+  transition: 0.2s ease;
 }
 
+.proof-btn:hover {
+  background: #bfdbfe;
+}
+
+/* NO PROOF */
 .no-proof {
   color: #94a3b8;
   font-size: 12px;
 }
 
+/* STATUS */
 .status-badge {
   padding: 8px 14px;
+
   border-radius: 999px;
 
   font-size: 11px;
@@ -115,11 +152,13 @@
   color: #991b1b;
 }
 
+/* ACTION BUTTONS */
 .action-buttons {
   display: flex;
   gap: 6px;
 }
 
+/* VERIFY */
 .verify-btn {
   border: none;
 
@@ -127,14 +166,22 @@
   color: #16a34a;
 
   padding: 8px 12px;
+
   border-radius: 8px;
 
   font-size: 12px;
   font-weight: 700;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
+.verify-btn:hover {
+  background: #bbf7d0;
+}
+
+/* REJECT */
 .reject-btn {
   border: none;
 
@@ -142,15 +189,37 @@
   color: #ef4444;
 
   padding: 8px 12px;
+
   border-radius: 8px;
 
   font-size: 12px;
   font-weight: 700;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
+.reject-btn:hover {
+  background: #fecaca;
+}
+
+/* DONE TEXT */
 .done-text {
   color: #94a3b8;
   font-size: 18px;
+}
+
+/* SCROLLBAR */
+.payment-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.payment-table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.payment-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
 }

@@ -48,13 +48,20 @@ export default function Cart({ isLogin, role }) {
 
       if (item.id_produk === id) {
 
-        if (type === "plus") {
+      if (type === "plus") {
 
-          return {
-            ...item,
-            qty: item.qty + 1
-          };
+        if (item.qty >= item.stok) {
+
+          alert("Stok tidak cukup");
+
+          return item;
         }
+
+        return {
+          ...item,
+          qty: item.qty + 1
+        };
+      }
 
         if (type === "minus") {
 

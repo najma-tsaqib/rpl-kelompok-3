@@ -1,5 +1,10 @@
-import React from "react";
+import React, {
+  useState,
+  useEffect
+} from "react";
+
 import "../styles/Admin.css";
+
 import Navbar_Admin from "../components/Navbar_Admin";
 import Sidebar from "../components/Sidebar";
 import Card from "../components/Card";
@@ -7,34 +12,127 @@ import SalesChart from "../components/SalesChart";
 import OrderTable from "../components/OrderTable";
 
 function Admin() {
+
+  const [summary, setSummary] = useState({
+
+    orders: 0,
+    income: 0,
+    stock: 0,
+    customers: 0
+
+  });
+
+  /* FETCH DASHBOARD */
+  useEffect(() => {
+
+    fetch(
+      "http://localhost/UDLestari/dashboard_summary.php"
+    )
+      .then((res) => res.json())
+
+      .then((data) => {
+
+        console.log(data);
+
+        setSummary(data);
+
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }, []);
+
   return (
+
     <div className="admin-container">
+
       <Navbar_Admin />
+
       <div className="admin-body">
+
         <Sidebar />
+
         <main className="dashboard">
-          <h2>LESTARI STORE – Ayam Potong Premium</h2>
+
+          <h2>
+            Dashboard
+          </h2>
+
+          <p className="dashboard-subtitle">
+            Selamat datang, Admin!
+            Berikut ringkasan aktivitas toko hari ini.
+          </p>
+
+          {/* CARDS */}
           <div className="cards">
-            <Card title="Total Pesanan" value="48" change="+12% dari kemarin" />
-            <Card title="Pendapatan Hari Ini" value="Rp2,4jt" change="+8% dari kemarin" />
-            <Card title="Stok Tersisa" value="324 kg" change="↓5% dari minggu lalu" />
-            <Card title="Total Pelanggan" value="156" change="+3 baru hari ini" />
+
+            <Card
+              title="Total Pesanan"
+              value={summary.orders}
+            />
+
+            <Card
+              title="Stok Tersisa"
+              value={`${summary.stock} kg`}
+            />
+
+            <Card
+              title="Total Pelanggan"
+              value={summary.customers}
+            />
+
+            <Card
+              title="Pendapatan Hari Ini"
+              value={`Rp${Number(summary.income)
+                .toLocaleString("id-ID")}`}
+            />
+
           </div>
+
+          {/* CHART */}
           <div className="chart-section">
+
             <SalesChart />
+
             <div className="best-products">
-              <h3>Produk Terlaris</h3>
+
+              <h3>
+                Produk Terlaris
+              </h3>
+
               <ul>
-                <li>Ayam 1 Ekor – 85%</li>
-                <li>Daging Ayam – 70%</li>
-                <li>Ceker Ayam – 55%</li>
-                <li>Tulang Ayam – 40%</li>
+
+                <li>
+                  Ayam 1 Ekor
+                </li>
+
+                <li>
+                  Daging Ayam
+                </li>
+
+                <li>
+                  Ceker Ayam
+                </li>
+
+                <li>
+                  Tulang Ayam
+                </li>
+
               </ul>
+
             </div>
+
           </div>
+
+          {/* TABLE */}
           <OrderTable />
+
         </main>
+
       </div>
+
     </div>
   );
 }

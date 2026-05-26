@@ -36,8 +36,11 @@ const handleLogout = async () => {
   try {
     await fetch("http://localhost/UDLestari/logout.php");
 
-    setIsLogin(false); // 🔥 ini penting
-    localStorage.removeItem("isLogin");
+    setIsLogin(false);
+
+    /* CLEAR SEMUA LOGIN */
+    localStorage.clear();
+    sessionStorage.clear();
 
     navigate("/");
   } catch (err) {

@@ -12,9 +12,6 @@ if (!$conn) {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-# =======================
-# GET
-# =======================
 if ($method === 'GET') {
 
     header("Content-Type: application/json");
@@ -86,9 +83,7 @@ if ($method === 'POST' && isset($_POST['id_produk'])) {
     echo json_encode(["message" => "Produk diupdate"]);
     exit;
 }
-# =======================
-# POST (Tambah + Upload Gambar)
-# =======================
+
 if ($method === 'POST') {
 
     header("Content-Type: application/json");
@@ -139,9 +134,6 @@ if ($stok < 0) {
     exit;
 }
 
-# =======================
-# PUT (Edit)
-# =======================
 if ($method === 'PUT') {
 
     header("Content-Type: application/json");
@@ -180,9 +172,6 @@ if ($method === 'PUT') {
     exit;
 }
 
-# =======================
-# DELETE
-# =======================
 if ($method === 'DELETE') {
 
     header("Content-Type: application/json");

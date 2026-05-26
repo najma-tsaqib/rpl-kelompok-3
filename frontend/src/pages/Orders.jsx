@@ -8,7 +8,7 @@ const [showModal, setShowModal] = useState(false);
 
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
+  
   const getStatusBadgeClass = (status) => {
     if (status === "Pending") return "badge-warning";
     if (status === "Dikonfirmasi") return "badge-info";
@@ -50,7 +50,6 @@ const fetchData = () => {
     fetchData();
   }, []);
 
-  // 🔥 update status (pakai POST biar aman)
   const updateStatus = (id, newStatus) => {
     fetch("http://localhost/UDLestari/orders.php", {
       method: "POST",
@@ -67,46 +66,66 @@ const fetchData = () => {
       .then(() => fetchData());
   };
 
-  // 🔥 search fix (pakai field DB)
-const filteredOrders = orders.filter(order => {
-  const term = searchTerm.toLowerCase();
+const filteredOrders = orders.filter((order) =>
 
-  if (!term || term.trim() === "") return true;
+  order.nama_pelanggan
+    ?.toLowerCase()
+    .includes(searchTerm.toLowerCase())
 
-  return JSON.stringify(order)
-    .toLowerCase()
-    .includes(term);
-});
+  ||
 
-  console.log(orders);
-  console.log("SEARCH:", `"${searchTerm}"`);
-  console.log("TOTAL:", orders.length);
-  console.log("FILTERED:", filteredOrders.length);
+  order.id_pesanan
+    ?.toString()
+    .includes(searchTerm)
+
+  ||
+
+  order.produk
+    ?.toLowerCase()
+    .includes(searchTerm.toLowerCase())
+
+);
+
+
   return (
     <div className="orders-page">
       <div className="page-header">
         <h1 className="page-title">Manajemen Pesanan</h1>
       </div>
 
-      <div className="card">
-        <div className="card-header">
-          <h2 className="card-title">Daftar Pesanan</h2>
+<div className="orders-card">
 
-          <div className="search-box">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Cari pesanan..."
-            value={searchTerm}
-            onChange={(e) => {
-              console.log("INPUT:", e.target.value); // 🔥
-              setSearchTerm(e.target.value);
-            }}
-          />
-        </div>
-        </div>
+  {/* HEADER */}
+  <div className="orders-card-header">
 
-        <table>
+    <h2 className="card-title">
+      Daftar Pesanan
+    </h2>
+
+    <div className="search-box">
+
+      <span className="search-icon">
+        🔍
+      </span>
+
+      <input
+        type="text"
+        placeholder="Cari pesanan..."
+        value={searchTerm}
+        onChange={(e) => {
+          console.log("INPUT:", e.target.value);
+          setSearchTerm(e.target.value);
+        }}
+      />
+
+    </div>
+
+  </div>
+
+  {/* TABLE */}
+  <div className="table-container">
+
+    <table className="orders-table">
           <thead>
             <tr>
               <th>NO. PESANAN</th>
@@ -180,6 +199,9 @@ const filteredOrders = orders.filter(order => {
           </tbody>
         </table>
       </div>
+
+      </div>
+
 
       {showModal && selectedOrder && (
   <div className="modal-overlay">

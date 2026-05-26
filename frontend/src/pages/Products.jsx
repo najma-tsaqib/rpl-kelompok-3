@@ -9,7 +9,17 @@ export default function Products() {
 console.log("POST KEKIRIM");
 
 useEffect(() => {
+
   fetchProducts();
+
+  const interval = setInterval(() => {
+
+    fetchProducts();
+
+  }, 2000);
+
+  return () => clearInterval(interval);
+
 }, []);
 
   const [formData, setFormData] = useState({

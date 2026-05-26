@@ -6,6 +6,12 @@ export default function Customers() {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [showModal, setShowModal] = useState(false);
+
+  const [customerDetail, setCustomerDetail] = useState(null);
+
+  const [customerOrders, setCustomerOrders] = useState([]);
+
   // FETCH DATABASE
   useEffect(() => {
 
@@ -16,6 +22,30 @@ export default function Customers() {
       });
 
   }, []);
+
+  const handleDetail = async (customer) => {
+
+  setShowModal(true);
+
+  // DETAIL CUSTOMER
+  const detailRes = await fetch(
+    `http://localhost/UDLestari/customer_detail.php?id_customer=${customer.id}`
+  );
+
+  const detailData = await detailRes.json();
+
+  setCustomerDetail(detailData);
+
+  // RECENT ORDERS
+  const orderRes = await fetch(
+    `http://localhost/UDLestari/customer_orders.php?id_customer=${customer.id}`
+  );
+
+  const orderData = await orderRes.json();
+
+  setCustomerOrders(orderData);
+
+};
 
   // SEARCH FILTER
   const filteredCustomers = customers.filter(customer =>
@@ -36,7 +66,7 @@ export default function Customers() {
 
   const totalOrders =
     customers.reduce(
-      (sum, c) => sum + Number(c.totalOrders),
+      (sum, c) => sum + Number(c.total_pesanan),
       0
     );
 
@@ -45,13 +75,13 @@ export default function Customers() {
     <div className="customers-page">
 
       {/* HEADER */}
-      <div className="page-header">
+      <div className="customer-page-header">
 
-        <h1 className="page-title">
+        <h1 className="customer-page-title">
           Manajemen Pelanggan
         </h1>
 
-        <p className="page-subtitle">
+        <p className="customer-page-subtitle">
           Kelola data pelanggan terdaftar
         </p>
 
@@ -60,16 +90,16 @@ export default function Customers() {
       {/* CARD */}
       <div className="customer-card">
 
-        <div className="card-header">
+        <div className="customer-card-header">
 
-          <h2 className="card-title">
+          <h2 className="customer-card-title">
             Data Pelanggan
           </h2>
 
-          <div className="header-controls">
+          <div className="customer-header-controls">
 
             {/* SEARCH */}
-            <div className="search-wrapper">
+            <div className="customer-search-wrapper">
 
               <input
                 type="text"
@@ -78,10 +108,10 @@ export default function Customers() {
                 onChange={(e) =>
                   setSearchTerm(e.target.value)
                 }
-                className="search-input"
+                className="customer-search-input"
               />
 
-              <span className="search-icon">
+              <span className="customer-search-icon">
                 🔍
               </span>
 
@@ -111,6 +141,8 @@ export default function Customers() {
 
             <tbody>
 
+              
+
               {filteredCustomers.map((customer) => (
 
                 <tr key={customer.id}>
@@ -137,19 +169,20 @@ export default function Customers() {
 
                   {/* TOTAL ORDER */}
                   <td>
-
-                  <span className="order-count">
-                    {customer.totalorders} pesanan
-                  </span>
-
+                <span className="order-count">
+                  {customer.total_pesanan} pesanan
+                </span>
                   </td>
 
                   {/* AKSI */}
-                  <td className="action-cell">
+                  <td className="customer-action-cell">
 
-                    <button className="action-btn view">
-                      Detail
-                    </button>
+                  <button
+                    className="action-btn view"
+                    onClick={() => handleDetail(customer)}
+                  >
+                    Detail
+                  </button>
 
                   </td>
 
@@ -160,13 +193,12 @@ export default function Customers() {
             </tbody>
 
           </table>
-
-        </div>
+</div>
 
         {/* FOOTER */}
-        <div className="table-footer">
+        <div className="customer-table-footer">
 
-          <span className="result-info">
+          <span className="customer-result-info">
 
             Menampilkan {filteredCustomers.length}
             dari {customers.length} pelanggan
@@ -177,6 +209,140 @@ export default function Customers() {
 
       </div>
 
+{showModal && customerDetail && (
+
+  <div className="customer-modal-overlay">
+
+    <div className="customer-detail-modal">
+
+      <div className="customer-modal-header">
+
+        <div>
+
+          <h2>Detail Pelanggan</h2>
+
+          <p>
+            Customer ID:
+            #{customerDetail.id_customer}
+          </p>
+
+        </div>
+
+        <button
+          className="customer-close-btn"
+          onClick={() => setShowModal(false)}
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div className="customer-modal-body">
+
+        {/* TITLE */}
+        <div className="detail-section-title">
+
+          <div className="detail-section-line"></div>
+
+          <h3>Informasi Pelanggan</h3>
+
+        </div>
+
+        {/* GRID */}
+        <div className="customer-detail-grid">
+
+          <div className="customer-detail-item">
+            <span>Nama Pelanggan</span>
+            <strong>{customerDetail.name}</strong>
+          </div>
+
+          <div className="customer-detail-item">
+            <span>Username</span>
+            <strong>{customerDetail.username}</strong>
+          </div>
+
+          <div className="customer-detail-item">
+            <span>Email</span>
+            <strong>{customerDetail.email}</strong>
+          </div>
+
+          <div className="customer-detail-item">
+            <span>No WhatsApp</span>
+            <strong>
+              {customerDetail.nomor_telepon}
+            </strong>
+          </div>
+
+          <div className="customer-detail-item">
+            <span>Total Pesanan</span>
+
+            <div className="detail-order-badge">
+              {customerDetail.total_pesanan} orders
+            </div>
+
+          </div>
+
+          <div className="customer-detail-item">
+            <span>Total Belanja</span>
+
+            <strong>
+              Rp
+              {Number(
+                customerDetail.total_belanja
+              ).toLocaleString()}
+            </strong>
+
+          </div>
+
+        </div>
+
+        {/* RECENT ORDERS */}
+        <div className="recent-orders">
+        <div className="recent-orders-title">
+          <div className="detail-section-line"></div>
+          <h3>Recent Orders</h3>
+        </div>
+              
+          {customerOrders.map((order) => (
+
+            <div
+              className="recent-order-card"
+              key={order.id_pesanan}
+            >
+
+              <div>
+
+                <strong>
+                  #ORD-{order.id_pesanan}
+                </strong>
+
+                <p>{order.tanggal}</p>
+
+              </div>
+
+              <div>
+                Rp
+                {Number(order.total)
+                  .toLocaleString()}
+              </div>
+
+              <span className="recent-badge">
+                {order.status}
+              </span>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+)}
     </div>
 
   );
