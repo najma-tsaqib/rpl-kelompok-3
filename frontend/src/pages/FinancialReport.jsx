@@ -18,7 +18,7 @@ export default function FinancialReport() {
 
   /* ================= FETCH TABLE ================= */
   useEffect(() => {
-    fetch("http://localhost/UDLestari/orders.php")
+    fetch("http://203.194.115.52orders.php")
     .then(res => res.json())
     .then(data => {
       let totalSaldo = data.reduce(
@@ -65,7 +65,7 @@ const formatted = data.map(item => {
   /* ================= FETCH SUMMARY ================= */
   useEffect(() => {
     fetch(
-  `http://localhost/UDLestari/summary.php?month=${currentMonth}&year=${currentYear}`
+  `http://203.194.115.52summary.php?month=${currentMonth}&year=${currentYear}`
 )
       .then(res => res.json())
       .then(data => setSummary(data));
@@ -126,7 +126,7 @@ const formatted = data.map(item => {
             className="btn btn-secondary"
             onClick={() =>
               window.open(
-                "http://localhost/UDLestari/export_pdf.php"
+                "http://203.194.115.52export_pdf.php"
               )
             }
           >

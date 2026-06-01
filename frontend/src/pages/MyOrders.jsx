@@ -14,7 +14,7 @@ function MyOrders({ isLogin, role }) {
   useEffect(() => {
 
     fetch(
-      `http://localhost/UDLestari/customer_orders.php?id_customer=${user.id_customer}`
+      `http://203.194.115.52customer_orders.php?id_customer=${user.id_customer}`
     )
       .then(res => res.json())
       .then(data => setOrders(data));

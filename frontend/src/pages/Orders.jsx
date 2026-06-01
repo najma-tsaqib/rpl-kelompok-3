@@ -32,7 +32,7 @@ const [showModal, setShowModal] = useState(false);
   };
   // 🔥 ambil data dari backend
 const fetchData = () => {
-  fetch("http://localhost/UDLestari/orders.php")
+  fetch("http://203.194.115.52orders.php")
     .then(res => res.text()) // 🔥 ubah dulu jadi text
     .then(text => {
       console.log("RAW:", text); // 🔥 LIAT INI
@@ -51,7 +51,7 @@ const fetchData = () => {
   }, []);
 
   const updateStatus = (id, newStatus) => {
-    fetch("http://localhost/UDLestari/orders.php", {
+    fetch("http://203.194.115.52orders.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

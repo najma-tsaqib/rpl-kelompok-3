@@ -50,7 +50,7 @@ export default function VerifyOTP() {
   const handleVerify = async () => {
 
     const res = await fetch(
-      "http://localhost/UDLestari/verify_otp.php",
+      "http://203.194.115.52verify_otp.php",
       {
         method: "POST",
         headers: {

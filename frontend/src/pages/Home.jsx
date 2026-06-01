@@ -16,7 +16,7 @@ function Home({ isLogin, role }) {
 
   useEffect(() => {
 
-    fetch("http://localhost/UDLestari/products.php")
+    fetch("http://203.194.115.52products.php")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);

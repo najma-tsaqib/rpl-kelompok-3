@@ -74,7 +74,7 @@ if ($method === 'POST' && isset($_POST['id_produk'])) {
         $target = $folder . $namaFile;
 
         if (move_uploaded_file($file["tmp_name"], $target)) {
-            $fotoPath = "http://localhost/UDLestari/uploads/" . $namaFile;
+            $fotoPath = "http://203.194.115.52uploads/" . $namaFile;
         }
     }
 
@@ -129,7 +129,7 @@ if ($stok < 0) {
         $target = $folder . $namaFile;
 
         if (move_uploaded_file($file["tmp_name"], $target)) {
-            $fotoPath = "http://localhost/UDLestari/uploads/" . $namaFile;
+            $fotoPath = "http://203.194.115.52uploads/" . $namaFile;
         }
     }
 

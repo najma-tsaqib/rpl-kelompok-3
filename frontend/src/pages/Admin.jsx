@@ -26,7 +26,7 @@ function Admin() {
   useEffect(() => {
 
     fetch(
-      "http://localhost/UDLestari/dashboard_summary.php"
+      "http://203.194.115.52dashboard_summary.php"
     )
       .then((res) => res.json())
 

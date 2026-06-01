@@ -133,7 +133,7 @@ export default function Cart({ isLogin, role }) {
   const handleCheckout = async () => {
 
     const checkoutRes = await fetch(
-      "http://localhost/UDLestari/checkout.php",
+      "http://203.194.115.52checkout.php",
       {
         method: "POST",
 
@@ -172,7 +172,7 @@ export default function Cart({ isLogin, role }) {
       );
 
       await fetch(
-        "http://localhost/UDLestari/upload_payment.php",
+        "http://203.194.115.52upload_payment.php",
         {
           method: "POST",
           body: formData

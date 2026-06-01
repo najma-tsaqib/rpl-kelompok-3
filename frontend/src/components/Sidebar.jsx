@@ -34,7 +34,7 @@ export default function Sidebar({ currentPage, setCurrentPage, setIsLogin }) {
 
 const handleLogout = async () => {
   try {
-    await fetch("http://localhost/UDLestari/logout.php");
+    await fetch("http://203.194.115.52logout.php");
 
     setIsLogin(false);
 

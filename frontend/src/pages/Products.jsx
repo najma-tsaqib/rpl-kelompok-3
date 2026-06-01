@@ -50,7 +50,7 @@ const handleAddProduct = () => {
 
   console.log(formData.foto);
 
-  fetch("http://localhost/UDLestari/products.php", {
+  fetch("http://203.194.115.52products.php", {
     method: "POST",
     body: form   // ❗ jangan pakai JSON lagi
   })
@@ -77,7 +77,7 @@ const handleUpdateProduct = () => {
     form.append("foto_lama", selectedProduct.foto);
   }
 
-  fetch("http://localhost/UDLestari/products.php", {
+  fetch("http://203.194.115.52products.php", {
     method: "POST", // 🔥 ubah jadi POST
     body: form
   })
@@ -92,7 +92,7 @@ const handleDeleteProduct = (id) => {
     if (!window.confirm("Yakin ingin menghapus produk ini?")) {
     return;
   }
-  fetch("http://localhost/UDLestari/products.php", {
+  fetch("http://203.194.115.52products.php", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
@@ -106,7 +106,7 @@ const handleDeleteProduct = (id) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const fetchProducts = () => {
-    fetch("http://localhost/UDLestari/products.php")
+    fetch("http://203.194.115.52products.php")
       .then(res => res.json())
       .then(data => {
         console.log("DATA:", data); // debug

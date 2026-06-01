@@ -15,7 +15,7 @@ export default function Customers() {
   // FETCH DATABASE
   useEffect(() => {
 
-    fetch("http://localhost/UDLestari/getCustomers.php")
+    fetch("http://203.194.115.52getCustomers.php")
       .then((res) => res.json())
       .then((data) => {
         setCustomers(data);
@@ -29,7 +29,7 @@ export default function Customers() {
 
   // DETAIL CUSTOMER
   const detailRes = await fetch(
-    `http://localhost/UDLestari/customer_detail.php?id_customer=${customer.id}`
+    `http://203.194.115.52customer_detail.php?id_customer=${customer.id}`
   );
 
   const detailData = await detailRes.json();
@@ -38,7 +38,7 @@ export default function Customers() {
 
   // RECENT ORDERS
   const orderRes = await fetch(
-    `http://localhost/UDLestari/customer_orders.php?id_customer=${customer.id}`
+    `http://203.194.115.52customer_orders.php?id_customer=${customer.id}`
   );
 
   const orderData = await orderRes.json();
