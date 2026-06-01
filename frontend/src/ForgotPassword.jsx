@@ -23,7 +23,7 @@ const handleSendOTP = async () => {
   }
 
   const res = await fetch(
-    "http://203.194.115.52forgot_password.php",
+    "http://203.194.115.52/forgot_password.php",
     {
       method: "POST",
       headers: {

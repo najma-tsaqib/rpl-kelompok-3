@@ -26,7 +26,7 @@ function Login({
     try {
 
       const res = await fetch(
-        "http://203.194.115.52login.php",
+        "http://203.194.115.52/login.php",
         {
           method: "POST",
           headers: {

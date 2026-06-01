@@ -8,7 +8,7 @@ export default function Payment() {
   /* FETCH */
   const fetchData = () => {
 
-    fetch("http://203.194.115.52payment.php")
+    fetch("http://203.194.115.52/payment.php")
       .then((res) => res.json())
       .then((data) => setPayments(data));
 
@@ -21,7 +21,7 @@ export default function Payment() {
   /* VERIFY */
   const handleVerify = (id) => {
 
-    fetch("http://203.194.115.52payment.php", {
+    fetch("http://203.194.115.52/payment.php", {
       method: "POST",
 
       headers: {
@@ -41,7 +41,7 @@ export default function Payment() {
   /* REJECT */
   const handleReject = (id) => {
 
-    fetch("http://203.194.115.52payment.php", {
+    fetch("http://203.194.115.52/payment.php", {
       method: "POST",
 
       headers: {
@@ -167,7 +167,7 @@ export default function Payment() {
                     {payment.bukti_transfer ? (
 
                       <a
-                        href={`http://203.194.115.52${payment.bukti_transfer}`}
+                        href={`http://203.194.115.52/${payment.bukti_transfer}`}
                         target="_blank"
                         rel="noreferrer"
                         className="proof-btn"

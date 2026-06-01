@@ -42,7 +42,7 @@ export default function Register() {
       return;
     }
 
-    const res = await fetch("http://203.194.115.52register_customer.php", {
+    const res = await fetch("http://203.194.115.52/register_customer.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

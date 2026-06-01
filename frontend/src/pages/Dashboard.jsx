@@ -32,7 +32,7 @@ export default function Dashboard({
   };
 
   useEffect(() => {
-    fetch(`http://203.194.115.52chart.php?year=${selectedYear}`)
+    fetch(`http://203.194.115.52/chart.php?year=${selectedYear}`)
       .then(res => res.json())
       .then(data => {
         console.log("DATA DARI BACKEND:", data);// 🔥 WAJIB
@@ -46,7 +46,7 @@ export default function Dashboard({
 
   useEffect(() => {
 
-  fetch("http://203.194.115.52dashboard_summary.php")
+  fetch("http://203.194.115.52/dashboard_summary.php")
     .then(res => res.json())
     .then(data => {
 
@@ -123,7 +123,7 @@ const stats = [
 
   const [recentOrders, setRecentOrders] = useState([]);
 
-fetch("http://203.194.115.52orders.php")
+fetch("http://203.194.115.52/orders.php")
   .then(res => res.json())
   .then(data => {
 
@@ -154,7 +154,7 @@ fetch("http://203.194.115.52orders.php")
 
 useEffect(() => {
 
-  fetch("http://203.194.115.52top_products.php")
+  fetch("http://203.194.115.52/top_products.php")
 
     .then((res) => res.json())
 

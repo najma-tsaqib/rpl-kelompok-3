@@ -30,7 +30,7 @@ export default function ResetPassword() {
     }
 
     const res = await fetch(
-      "http://203.194.115.52reset_password.php",
+      "http://203.194.115.52/reset_password.php",
       {
         method: "POST",
         headers: {

@@ -17,11 +17,6 @@ function Navbar({
     location.pathname === "/customer" ||
     location.pathname === "/cart";
 
-  const cart =
-  JSON.parse(
-    localStorage.getItem("cart") || "[]"
-  );
-
   const totalCart = cart.reduce(
     (acc, item) => acc + item.qty,
     0

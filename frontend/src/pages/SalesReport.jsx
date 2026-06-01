@@ -28,7 +28,7 @@ export default function SalesReport() {
 
 useEffect(() => {
 
-fetch(`http://203.194.115.52daily_sales.php?month=${monthMap[selectedMonth]}&year=${currentYear}`)
+fetch(`http://203.194.115.52/daily_sales.php?month=${monthMap[selectedMonth]}&year=${currentYear}`)
   .then(res => res.json())
   .then(data => {
 
@@ -79,7 +79,7 @@ const stats = [
 useEffect(() => {
 
   fetch(
-    `http://203.194.115.52sales_summary.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
+    `http://203.194.115.52/sales_summary.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
   )
     .then(res => res.json())
     .then(data => {
@@ -91,7 +91,7 @@ useEffect(() => {
 }, [selectedMonth]);
 
 useEffect(() => {
-  fetch(`http://203.194.115.52orders.php?month=${monthMap[selectedMonth]}&year=${currentYear}`)
+  fetch(`http://203.194.115.52/orders.php?month=${monthMap[selectedMonth]}&year=${currentYear}`)
     .then(res => res.json())
     .then(data => setTransactions(data));
 }, [selectedMonth]);
@@ -140,7 +140,7 @@ const maxValue = Math.max(...chartData.map(d => d.value), 1);
               className="btn btn-secondary"
               onClick={() =>
                 window.open(
-                  `http://203.194.115.52export_excel.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
+                  `http://203.194.115.52/export_excel.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
                 )
               }
             >
