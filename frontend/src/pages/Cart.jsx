@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../styles/Cart.css";
 
+import boxIcon from "../assets/box.png";
+import truckIcon from "../assets/truck.png";
+import gpsIcon from "../assets/gps.png";
+import transferIcon from "../assets/transfer.png";
+import ewalletIcon from "../assets/ewallet.png";
+import codIcon from "../assets/cod.png";
+import uploadIcon from "../assets/upload.png";
+
 export default function Cart({ isLogin, role }) {
 
   const [cart, setCart] = useState([]);
@@ -12,8 +20,6 @@ export default function Cart({ isLogin, role }) {
   const [shippingMethod, setShippingMethod] =
   useState("Ambil Sendiri");
   const [showConfirm, setShowConfirm] = useState(false);
-
-  
 
   useEffect(() => {
 
@@ -324,7 +330,7 @@ export default function Cart({ isLogin, role }) {
   >
 
     <div className="shipping-icon">
-      📦
+      <img src={boxIcon} alt="Ambil Sendiri" />
     </div>
 
     <span>
@@ -345,7 +351,7 @@ export default function Cart({ isLogin, role }) {
   >
 
     <div className="shipping-icon gray">
-      🚚
+      <img src={truckIcon} alt="Kurir Antar" />
     </div>
 
     <span>
@@ -359,7 +365,7 @@ export default function Cart({ isLogin, role }) {
   <div className="pickup-info">
 
     <div className="pickup-icon">
-      📍
+    <img src={gpsIcon} alt= "gps" />
     </div>
 
     <div>
@@ -441,7 +447,7 @@ export default function Cart({ isLogin, role }) {
                     setPaymentMethod("Transfer Bank")
                   }
                 >
-                  🏦
+                <img src={transferIcon} alt="transfer"/>
                   <span>Transfer Bank</span>
                 </button>
 
@@ -455,7 +461,7 @@ export default function Cart({ isLogin, role }) {
                     setPaymentMethod("E-Wallet")
                   }
                 >
-                  💳
+                  <img src={ewalletIcon} alt="ewallet"/>
                   <span>E-Wallet</span>
                 </button>
 
@@ -469,7 +475,7 @@ export default function Cart({ isLogin, role }) {
                     setPaymentMethod("COD")
                   }
                 >
-                  🏠
+                <img src={codIcon} alt="cod"/>
                   <span>COD</span>
                 </button>
 
@@ -487,8 +493,8 @@ export default function Cart({ isLogin, role }) {
                   <div className="payment-info-icon">
 
                     {paymentMethod === "Transfer Bank"
-                      ? "🏦"
-                      : "💳"}
+                      ? <img src={transferIcon} alt="transfer"/>
+                      : <img src={ewalletIcon} alt="ewallet"/>}
 
                   </div>
 
@@ -631,22 +637,25 @@ export default function Cart({ isLogin, role }) {
 
                 <label className="upload-box">
 
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(e) => {
+                <input
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  hidden
+                  onChange={(e) => {
 
-                      setSelectedFile(
-                        e.target.files[0]
-                      );
+                    const file = e.target.files[0];
 
-                      setUploadSuccess(false);
+                    if (!file) return;
 
-                    }}
-                  />
+                    setSelectedFile(file);
+
+                    setUploadSuccess(false);
+
+                  }}
+                />
 
                   <div className="upload-icon">
-                    ☁️
+                  <img src={uploadIcon} alt="upload"/>
                   </div>
 
                   <p>

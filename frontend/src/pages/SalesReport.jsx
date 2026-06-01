@@ -59,23 +59,36 @@ const stats = [
   {
     label: 'Total Pendapatan Bulan Ini',
     value: `Rp${(summary.pemasukan / 1000000).toFixed(1)}jt`,
-    change: '+15%',
+    change: `${summary.pemasukan_percent || 0}%`,
     subtitle: 'dari bulan lalu'
   },
   {
     label: 'Total Produk Terjual',
     value: summary.produk,
-    change: '+20%',
+    change: `${summary.produk_percent || 0}%`,
     subtitle: 'dari bulan lalu'
   },
   {
     label: 'Total Pesanan Bulan Ini',
     value: `${summary.pesanan} kg`,
-    change: '+8%',
+    change: `${summary.pesanan_percent || 0}%`,
     subtitle: 'dari bulan lalu'
   }
 ];
 
+useEffect(() => {
+
+  fetch(
+    `http://localhost/UDLestari/sales_summary.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
+  )
+    .then(res => res.json())
+    .then(data => {
+
+      setSummary(data);
+
+    });
+
+}, [selectedMonth]);
 
 useEffect(() => {
   fetch(`http://localhost/UDLestari/orders.php?month=${monthMap[selectedMonth]}&year=${currentYear}`)
@@ -94,12 +107,12 @@ const maxValue = Math.max(...chartData.map(d => d.value), 1);
       </div>
 
       {/* Stats Cards */}
-      <div className="stats-grid">
+      <div className="sales-stats-grid">
         {stats.map((stat, idx) => (
-          <div key={idx} className="stat-card">
-            <div className="stat-label">{stat.label}</div>
-            <div className="stat-value">{stat.value}</div>
-            <div className="stat-change positive">
+          <div key={idx} className="sales-stat-card">
+            <div className="sales-stat-label">{stat.label}</div>
+            <div className="sales-stat-value">{stat.value}</div>
+            <div className="sales-stat-change positive">
               ↑ {stat.change}
               <span className="change-text">{stat.subtitle}</span>
             </div>
@@ -123,7 +136,16 @@ const maxValue = Math.max(...chartData.map(d => d.value), 1);
                 <option key={m} value={m}>{m}</option>
               ))}
             </select>
-            <button className="btn btn-secondary">Export PDF</button>
+            <button
+              className="btn btn-secondary"
+              onClick={() =>
+                window.open(
+                  `http://localhost/UDLestari/export_excel.php?month=${monthMap[selectedMonth]}&year=${currentYear}`
+                )
+              }
+            >
+              Export Excel
+            </button>
           </div>
         </div>
 

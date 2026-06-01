@@ -149,9 +149,11 @@ if (existing) {
   </div>
 
   {/* FOOTER */}
-  <div className="customer-sidebar-footer">
 
-    <button
+  <div className="sidebar-logout">
+
+  <button
+    className="logout-btn"
     onClick={() => {
 
       localStorage.removeItem("isLogin");
@@ -164,12 +166,13 @@ if (existing) {
       window.location.href = "/";
 
     }}
-    >
-      <i className="fas fa-sign-out-alt"></i>
-      Logout
-    </button>
+  >
+    <i className="fas fa-sign-out-alt"></i>
+    Logout
+  </button>
 
-  </div>
+</div>
+
 </div>
 
         <div className="customer-content">

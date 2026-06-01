@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -16,7 +20,13 @@ if ($method === 'GET') {
 
     header("Content-Type: application/json");
 
-    $query = 'SELECT * FROM "UDLestari".produk ORDER BY id_produk DESC';
+    $query = '
+    SELECT *
+    FROM "UDLestari".produk
+    WHERE aktif = TRUE
+    ORDER BY id_produk DESC
+    ';
+
     $result = pg_query($conn, $query);
 
     $data = [];
@@ -179,8 +189,25 @@ if ($method === 'DELETE') {
     $input = json_decode(file_get_contents("php://input"), true);
     $id = (int)$input['id_produk'];
 
-    pg_query($conn, "DELETE FROM \"UDLestari\".produk WHERE id_produk = $id");
+    $result = pg_query(
+    $conn,
+    "UPDATE \"UDLestari\".produk
+     SET aktif = FALSE
+     WHERE id_produk = $id"
+    );
 
-    echo json_encode(["message" => "Produk dihapus"]);
+    if (!$result) {
+        http_response_code(500);
+
+        echo json_encode([
+            "success" => false,
+            "error" => pg_last_error($conn)
+        ]);
+        exit;
+    }
+
+    echo json_encode([
+        "success" => true
+    ]);
     exit;
 }

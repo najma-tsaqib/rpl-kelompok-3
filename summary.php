@@ -11,32 +11,20 @@ $year = $_GET['year'] ?? date('Y');
 $pemasukan = pg_fetch_result(pg_query($conn, "
 SELECT COALESCE(SUM(total_harga),0)
 FROM \"UDLestari\".pesanan
-WHERE EXTRACT(MONTH FROM tanggal_pesanan) = '$month'
-AND EXTRACT(YEAR FROM tanggal_pesanan) = '$year'
-"), 0, 0);
-
-# ================= PENGELUARAN =================
-# sementara contoh: ambil dari pembayaran yg status tertentu (atau nanti bikin tabel sendiri)
-$pengeluaran = pg_fetch_result(pg_query($conn, "
-SELECT COALESCE(SUM(total_harga),0)
-FROM \"UDLestari\".pesanan
-WHERE status_pesanan = 'dibatalkan'
+WHERE status_pesanan IN ('Dikonfirmasi','Selesai')
 AND EXTRACT(MONTH FROM tanggal_pesanan) = '$month'
 AND EXTRACT(YEAR FROM tanggal_pesanan) = '$year'
 "), 0, 0);
-
-# ================= LABA =================
-$laba = $pemasukan - $pengeluaran;
 
 # ================= SALDO =================
 $saldo = pg_fetch_result(pg_query($conn, "
 SELECT COALESCE(SUM(total_harga),0)
 FROM \"UDLestari\".pesanan
+WHERE status_pesanan IN ('Dikonfirmasi','Selesai')
 "), 0, 0);
 
 echo json_encode([
   "pemasukan" => (int)$pemasukan,
-  "pengeluaran" => (int)$pengeluaran,
-  "laba" => (int)$laba,
+  "laba" => (int)$pemasukan,
   "saldo" => (int)$saldo
 ]);

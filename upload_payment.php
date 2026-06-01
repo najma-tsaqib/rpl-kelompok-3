@@ -31,6 +31,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $file = $_FILES['file'];
 
+  $allowedTypes = [
+  "image/jpeg",
+  "image/png",
+  "application/pdf"
+];
+
+$allowedExt = [
+  "jpg",
+  "jpeg",
+  "png",
+  "pdf"
+];
+
+$fileType = mime_content_type(
+  $file['tmp_name']
+);
+
+$fileExt = strtolower(
+  pathinfo(
+    $file['name'],
+    PATHINFO_EXTENSION
+  )
+);
+
+/* cek mime type */
+if (!in_array($fileType, $allowedTypes)) {
+
+  echo json_encode([
+    "error" =>
+      "Hanya JPG, PNG, dan PDF yang diperbolehkan"
+  ]);
+
+  exit;
+}
+
+if (!in_array($fileExt, $allowedExt)) {
+
+  echo json_encode([
+    "error" =>
+      "Ekstensi file tidak valid"
+  ]);
+
+  exit;
+}
+
   $namaFile =
     time() . "_" . basename($file['name']);
 

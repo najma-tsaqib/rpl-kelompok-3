@@ -178,7 +178,7 @@ export default function Payment() {
                     ) : (
 
                       <span className="no-proof">
-                        Belum Upload
+                        Cash On Delivery
                       </span>
 
                     )}

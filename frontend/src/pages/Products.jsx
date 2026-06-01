@@ -54,6 +54,7 @@ const handleAddProduct = () => {
     method: "POST",
     body: form   // ❗ jangan pakai JSON lagi
   })
+  
   .then(res => res.json())
   .then(() => {
     fetchProducts();
@@ -87,30 +88,19 @@ const handleUpdateProduct = () => {
   });
 };
 
-  const handleDeleteProduct = (id) => {
-    fetch("http://localhost/UDLestari/products.php", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ id_produk: id })
-    })
-      .then(res => res.json())
-      .then(() => fetchProducts());
-  };
-
-  const getEmoji = (nama) => {
-  const n = nama.toLowerCase();
-
-  if (n.includes("ayam 1 ekor")) return "🐔";
-  if (n.includes("daging")) return "🥩";
-  if (n.includes("ceker")) return "🦶";
-  if (n.includes("tulang")) return "🦴";
-  if (n.includes("fillet")) return "🍗";
-  if (n.includes("ati")) return "🫀";
-  if (n.includes("usus")) return "🌀";
-
-  return "📦";
+const handleDeleteProduct = (id) => {
+    if (!window.confirm("Yakin ingin menghapus produk ini?")) {
+    return;
+  }
+  fetch("http://localhost/UDLestari/products.php", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id_produk: id })
+  })
+    .then(res => res.json())
+    .then(() => fetchProducts());
 };
 
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -123,6 +113,17 @@ const handleUpdateProduct = () => {
         setProducts(data);
       });
   };
+
+  const categories = [
+  "ayam potong",
+  "daging",
+  "jeroan",
+  "kepala",
+  "ceker",
+  "tulang",
+  "fillet"
+];
+
   return (
     <div className="products-page">
       <div className="page-header">
@@ -161,7 +162,7 @@ const handleUpdateProduct = () => {
   }
 />
 
-<input
+<select
   value={selectedProduct.kategori}
   onChange={(e) =>
     setSelectedProduct({
@@ -169,7 +170,13 @@ const handleUpdateProduct = () => {
       kategori: e.target.value
     })
   }
-/>
+>
+  {categories.map((cat) => (
+    <option key={cat} value={cat}>
+      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+    </option>
+  ))}
+</select>
 
 <input
   type="number"
@@ -233,10 +240,11 @@ const handleUpdateProduct = () => {
                   value={formData.category}
                   onChange={handleInputChange}
                 >
-                  <option value="ayam-potong">Ayam Potong</option>
-                  <option value="daging">Daging</option>
-                  <option value="jeroan">Jeroan</option>
-                  <option value="kepala">Kepala</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="form-group">
@@ -315,9 +323,9 @@ const handleUpdateProduct = () => {
         className="product-img"
       />
     ) : (
-      <span className="product-emoji">
-        {getEmoji(product.nama_produk)}
-      </span>
+        <span className="product-emoji">
+          📦
+        </span>
     )}
 
     <div>

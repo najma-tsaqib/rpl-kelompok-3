@@ -3,11 +3,15 @@ import '../styles/FinancialReport.css';
 
 export default function FinancialReport() {
 
+  const currentYear = new Date().getFullYear();
+
+  const currentMonth = String(
+    new Date().getMonth() + 1
+  ).padStart(2, '0');
   /* ================= STATE ================= */
   const [financialHistory, setFinancialHistory] = useState([]);
   const [summary, setSummary] = useState({
     pemasukan: 0,
-    pengeluaran: 0,
     laba: 0,
     saldo: 0
   });
@@ -17,24 +21,34 @@ export default function FinancialReport() {
     fetch("http://localhost/UDLestari/orders.php")
     .then(res => res.json())
     .then(data => {
+      let totalSaldo = data.reduce(
+  (sum, item) => sum + Number(item.total),
+  0
+);
 
-      let saldo = 0;
+const formatted = data.map(item => {
 
-      const formatted = data.map(item => {
+  const jumlah = Number(item.total);
 
-        const jumlah = Number(item.total);
-        const tipe = "Pemasukan";
+  const currentSaldo = totalSaldo;
 
-        saldo += jumlah;
+  totalSaldo -= jumlah;
 
-        return {
-          date: item.tanggal,
-          type: `Penjualan Ayam #ORD-${String(item.id_pesanan).padStart(4, '0')}`,
-          category: tipe,
-          amount: `+Rp${jumlah.toLocaleString('id-ID')}`,
-          balance: `Rp${saldo.toLocaleString('id-ID')}`
-        };
-      });
+  return {
+    date: item.tanggal,
+
+    type:
+      `Penjualan Ayam #ORD-${String(item.id_pesanan).padStart(4, '0')}`,
+
+    category: "Pemasukan",
+
+    amount:
+      `+Rp${jumlah.toLocaleString('id-ID')}`,
+
+    balance:
+      `Rp${currentSaldo.toLocaleString('id-ID')}`
+  };
+});
 
       setFinancialHistory(formatted);
     });
@@ -46,9 +60,13 @@ export default function FinancialReport() {
     return category === 'Pemasukan' ? 'badge-success' : 'badge-danger';
   };
 
+  
+
   /* ================= FETCH SUMMARY ================= */
   useEffect(() => {
-    fetch("http://localhost/UDLestari/summary.php?month=06&year=2024")
+    fetch(
+  `http://localhost/UDLestari/summary.php?month=${currentMonth}&year=${currentYear}`
+)
       .then(res => res.json())
       .then(data => setSummary(data));
   }, []);
@@ -63,7 +81,7 @@ export default function FinancialReport() {
     <div className="financial-report-page">
 
       <div className="page-header">
-        <h1 className="page-title">Laporan Penjualan</h1>
+        <h1 className="page-title">Laporan Keuangan</h1>
         <p className="page-subtitle">Ringkasan penjualan harian</p>
       </div>
 
@@ -71,7 +89,6 @@ export default function FinancialReport() {
 
   <div className="financial-stat-card">
     <div className="stat-header">
-      <span className="stat-icon">📈</span>
       <span className="stat-label">Pemasukan Bulan Ini</span>
     </div>
     <div className="stat-value">
@@ -79,19 +96,8 @@ export default function FinancialReport() {
     </div>
   </div>
 
-    <div className="financial-stat-card">
-  <div className="stat-header">
-    <span className="stat-icon">📉</span>
-    <span className="stat-label">Pengeluaran</span>
-  </div>
-  <div className="stat-value">
-    {formatRupiah(summary.pengeluaran)}
-  </div>
-</div>
-
 <div className="financial-stat-card">
   <div className="stat-header">
-    <span className="stat-icon">⚖️</span>
     <span className="stat-label">Laba Bersih</span>
   </div>
   <div className="stat-value">
@@ -101,8 +107,7 @@ export default function FinancialReport() {
 
 <div className="financial-stat-card">
   <div className="stat-header">
-    <span className="stat-icon">🐷</span>
-    <span className="stat-label">Total Saldo</span>
+    <span className="stat-label">Total Pendapatan</span>
   </div>
   <div className="stat-value">
     {formatRupiah(summary.saldo)}
@@ -115,7 +120,16 @@ export default function FinancialReport() {
       <div className="card">
         <div className="card-header">
           <h2 className="card-title">Rincian Transaksi</h2>
-          <button className="btn btn-secondary">Export</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() =>
+              window.open(
+                "http://localhost/UDLestari/export_pdf.php"
+              )
+            }
+          >
+            Export PDF
+          </button>
         </div>
 
         <div className="table-container">
@@ -126,7 +140,6 @@ export default function FinancialReport() {
                 <th>KETERANGAN</th>
                 <th>TIPE</th>
                 <th>JUMLAH</th>
-                <th>SALDO</th>
               </tr>
             </thead>
 
@@ -146,7 +159,6 @@ export default function FinancialReport() {
                     {item.amount}
                   </td>
 
-                  <td className="balance">{item.balance}</td>
                 </tr>
               ))}
             </tbody>

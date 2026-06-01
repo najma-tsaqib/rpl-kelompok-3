@@ -28,6 +28,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     pg_query($conn, $query);
 
+    if ($status === "Tidak Valid") {
+
+    $getOrder = pg_query($conn, "
+        SELECT id_pesanan
+        FROM \"UDLestari\".pembayaran
+        WHERE id_pembayaran = $id
+    ");
+
+    $order = pg_fetch_assoc($getOrder);
+
+    $id_pesanan = (int)$order['id_pesanan'];
+
+    pg_query($conn, "
+        UPDATE \"UDLestari\".pesanan
+        SET status_pesanan = 'Ditolak'
+        WHERE id_pesanan = $id_pesanan
+    ");
+}
+
     echo json_encode([
         "message" => "success"
     ]);

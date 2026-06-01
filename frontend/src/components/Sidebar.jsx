@@ -9,23 +9,23 @@ export default function Sidebar({ currentPage, setCurrentPage, setIsLogin }) {
     {
       label: 'UTAMA',
       items: [
-        { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-        { id: 'orders', label: 'Pesanan', icon: '📋' },
-        { id: 'products', label: 'Produk', icon: '📦' },
-        { id: 'payment', label: 'Pembayaran', icon: '💳' },
+        { id: 'dashboard', label: 'Dashboard' },
+        { id: 'orders', label: 'Pesanan'},
+        { id: 'products', label: 'Produk'},
+        { id: 'payment', label: 'Pembayaran'},
       ]
     },
     {
       label: 'LAPORAN',
       items: [
-        { id: 'sales', label: 'Laporan Penjualan', icon: '📈' },
-        { id: 'financial', label: 'Keuangan', icon: '💰' },
+        { id: 'sales', label: 'Laporan Penjualan'},
+        { id: 'financial', label: 'Keuangan' },
       ]
     },
     {
       label: 'PENGATURAN',
       items: [
-        { id: 'customers', label: 'Pelanggan', icon: '👥' },
+        { id: 'customers', label: 'Pelanggan'},
       ]
       
     }
@@ -74,7 +74,6 @@ const handleLogout = async () => {
                     className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
                     onClick={() => setCurrentPage(item.id)}
                   >
-                    <span className="nav-icon">{item.icon}</span>
                     <span className="nav-label">{item.label}</span>
                   </button>
                 </li>
@@ -86,7 +85,6 @@ const handleLogout = async () => {
 
       <div className="sidebar-footer">
         <button className="logout-btn" onClick={handleLogout}>
-          <span className="nav-icon">🚪</span>
           <span className="nav-label">Keluar</span>
         </button>
       </div>

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 
 import "../styles/Home.css";
 import heroImage from "../assets/nyam.png";
 
 function Home({ isLogin, role }) {
-
+  
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] =
@@ -75,6 +78,21 @@ const filteredProducts = products.filter((item) => {
             untuk keluarga sehat setiap hari.
           </p>
 
+          <div className="hero-buttons">
+          <button
+            className="hero-primary"
+            onClick={() => navigate("/customer")}
+          >
+            🛒 Belanja Sekarang
+          </button>
+          <button
+            className="hero-outline"
+            onClick={() => navigate("/customer")}
+          >
+            👁 Lihat Produk
+          </button>
+        </div>
+
         </div>
 
         <div className="home-hero-right">
@@ -121,9 +139,9 @@ const filteredProducts = products.filter((item) => {
 
             <h4>Info Toko</h4>
 
-            <p>🕒 06.00 - 17.00</p>
-            <p>📍 Pasar Lokal Lestari</p>
-            <p>📞 0812-3456-7890</p>
+            <p>06.00 - 17.00</p>
+            <p>Pasar Lokal Lestari</p>
+            <p> 0812-3456-7890</p>
 
           </div>
 
@@ -134,16 +152,19 @@ const filteredProducts = products.filter((item) => {
 
           {/* PROMO */}
           <div className="promo-grid">
-
             <div className="promo-card blue">
 
-              <span>Produk Unggulan</span>
+            <span>Produk Unggulan</span>
 
-              <h2>Ayam 1 Ekor Utuh</h2>
+            <h2>Ayam 1 Ekor Utuh</h2>
 
-              <h1>Rp50.000/kg</h1>
-
+            <div className="promo-price">
+              Rp50.000<span>/kg</span>
             </div>
+
+            <p>Stok: 45 kg tersedia</p>
+
+          </div>
           
           </div>
 
@@ -154,12 +175,21 @@ const filteredProducts = products.filter((item) => {
               Produk <span>Terlaris</span>
             </h2>
 
+            <span
+              className="see-all"
+              onClick={() => navigate("/customer")}
+            >
+              Lihat Semua →
+            </span>
+
           </div>
 
           {/* PRODUCTS */}
           <div className="home-products-grid">
 
-            {filteredProducts.map((item) => (
+            {filteredProducts
+              .slice(0, 5)
+              .map((item) => (
 
               <div
                 className="home-product-card"
@@ -172,6 +202,10 @@ const filteredProducts = products.filter((item) => {
                     src={item.foto}
                     alt={item.nama_produk}
                   />
+
+                  <div className="product-badge">
+                    {item.kategori}
+                  </div>
 
                 </div>
 
@@ -203,14 +237,6 @@ const filteredProducts = products.filter((item) => {
 
                   </div>
 
-                  <button className="home-cart-btn">
-
-                    <i className="fas fa-cart-plus"></i>
-
-                    Tambah Keranjang
-
-                  </button>
-
                 </div>
 
               </div>
@@ -226,24 +252,40 @@ const filteredProducts = products.filter((item) => {
       {/* FOOTER */}
       <footer className="home-footer">
 
-        <div>
-          <h2>🐔 LESTARI STORE</h2>
-          <p>
-            Supplier ayam potong segar terpercaya.
-          </p>
+        <div className="footer-grid">
+
+          <div className="footer-brand">
+            <h2>LESTARI STORE</h2>
+
+            <h4>Ayam Potong Premium</h4>
+
+            <p>
+              Supplier ayam potong segar terpercaya.
+              Produk higienis langsung dari peternakan
+              lokal terbaik.
+            </p>
+          </div>
+
+          <div>
+            <h4>Produk</h4>
+            <p>Ayam Potong</p>
+            <p>Daging Ayam</p>
+            <p>Ceker & Kepala</p>
+            <p>Ayam Fillet</p>
+          </div>
+
+          <div>
+            <h4>Kontak</h4>
+            <p>0812-3456-7890</p>
+            <p>lestari@store.id</p>
+            <p>Pasar Lokal Lestari</p>
+            <p>WhatsApp Chat</p>
+          </div>
+
         </div>
 
-        <div>
-          <h4>Menu</h4>
-          <p>Beranda</p>
-          <p>Produk</p>
-          <p>Pesanan</p>
-        </div>
-
-        <div>
-          <h4>Kontak</h4>
-          <p>📞 0812-3456-7890</p>
-          <p>📍 Pasar Lokal Lestari</p>
+        <div className="footer-bottom">
+          © 2024 UD Lestari Store — Ayam Potong Premium. All rights reserved.
         </div>
 
       </footer>

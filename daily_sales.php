@@ -14,6 +14,7 @@ SELECT
 FROM \"UDLestari\".pesanan
 WHERE EXTRACT(MONTH FROM tanggal_pesanan) = '$month'
 AND EXTRACT(YEAR FROM tanggal_pesanan) = '$year'
+AND status_pesanan IN ('Dikonfirmasi', 'Selesai')
 GROUP BY day
 ORDER BY day
 ";

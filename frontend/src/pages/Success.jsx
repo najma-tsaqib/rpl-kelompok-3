@@ -3,6 +3,10 @@ import {
   useSearchParams
 } from "react-router-dom";
 
+import berhasilIcon from "../assets/berhasil.png";
+import lihatpesananIcon from "../assets/lihatpesanan.png";
+import kembaliIcon from "../assets/kembali.png";
+
 import "../styles/Success.css";
 
 export default function Success() {
@@ -21,7 +25,7 @@ export default function Success() {
       <div className="success-card">
 
         <div className="success-icon">
-          ☑️
+        <img src={berhasilIcon} alt="berhasil" />
         </div>
 
         <h1 className="success-title">
@@ -80,14 +84,14 @@ export default function Success() {
             className="success-btn-primary"
             onClick={() => navigate("/orders")}
           >
-            📦 Lihat Pesanan
+            <img src={lihatpesananIcon} alt="lihat pesanan" /> Lihat Pesanan
           </button>
 
           <button
             className="success-btn-secondary"
             onClick={() => navigate("/customer")}
           >
-            🏠 Kembali
+            <img src={kembaliIcon} alt="kembali" /> Kembali
           </button>
 
         </div>

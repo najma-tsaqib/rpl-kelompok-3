@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 
 import '../styles/Dashboard.css';
 
+import ordersIcon from '../assets/total pesanan.png';
+import incomeIcon from '../assets/pendapatan hari ini.png';
+import stockIcon from '../assets/stok tersisa.png';
+import customerIcon from '../assets/total pelanggan.png';
 
 export default function Dashboard({
     setCurrentPage
@@ -58,6 +62,7 @@ const stats = [
 
   {
     label: 'Total Pesanan',
+    image: ordersIcon,
     value: summary.orders || 0,
 
     change:
@@ -68,13 +73,12 @@ const stats = [
       ? 'positive'
       : 'negative',
 
-    changeText: 'dari kemarin',
-
-    icon: '📦'
+    changeText: 'dari kemarin'
   },
 
   {
     label: 'Stok Tersisa',
+    image: stockIcon,
 
     value:
       `${summary.stock || 0} kg`,
@@ -84,28 +88,19 @@ const stats = [
     changeType: 'neutral',
 
     changeText: 'stok tersedia',
-
-    icon: '📊'
   },
 
   {
     label: 'Total Pelanggan',
+    image: customerIcon,
 
     value:
       summary.customers || 0,
-
-    change:
-      `+${summary.new_customers || 0}`,
-
-    changeType: 'positive',
-
-    changeText: 'baru hari ini',
-
-    icon: '👥'
   },
 
   {
     label: 'Pendapatan Hari Ini',
+    image: incomeIcon,
 
     value:
       `Rp${Number(summary.income || 0)
@@ -120,25 +115,53 @@ const stats = [
       : 'negative',
 
     changeText: 'dari kemarin',
-
-    icon: '💰'
   }
 
 ];
 
-  const topProducts = [
-    { name: 'Ayam 1 Ekor', emoji: '🐔', percentage: 85 },
-    { name: 'Daging Ayam', emoji: '🍖', percentage: 70 },
-    { name: 'Ceker Ayam', emoji: '🦶', percentage: 55 },
-    { name: 'Tulang Ayam', emoji: '🦴', percentage: 40 }
-  ];
+  const [topProducts, setTopProducts] = useState([]);
 
   const [recentOrders, setRecentOrders] = useState([]);
 
-  useEffect(() => {
-  fetch("http://localhost/UDLestari/recent_orders.php")
-    .then(res => res.json())
-    .then(data => setRecentOrders(data));
+fetch("http://localhost/UDLestari/orders.php")
+  .then(res => res.json())
+  .then(data => {
+
+    const formatted = data.map(order => ({
+      id: `#ORD-${String(order.id_pesanan).padStart(4, '0')}`,
+
+      customer: order.nama_pelanggan,
+
+      product: order.produk,
+
+      total: `Rp${Number(order.total).toLocaleString("id-ID")}`,
+
+      status: order.status,
+
+      tanggal: order.tanggal,
+
+      no_telepon: order.no_telepon,
+
+      status_pembayaran: order.status_pembayaran,
+
+      metode_pembayaran: order.metode_pembayaran,
+
+      metode_pengiriman: order.metode_pengiriman
+    }));
+
+    setRecentOrders(formatted.slice(0, 5));
+  });
+
+useEffect(() => {
+
+  fetch("http://localhost/UDLestari/top_products.php")
+
+    .then((res) => res.json())
+
+    .then((data) => {
+      setTopProducts(data);
+    });
+
 }, []);
 
   const getStatusBadgeClass = (status) => {
@@ -155,9 +178,10 @@ const stats = [
       Number(item.value) > Number(arr[maxIdx].value) ? i : maxIdx,
     0
   );
-
-  console.log("MAX INDEX:", maxIndex);
-
+  
+  const maxSold =
+  topProducts[0]?.total || 1;
+  
   return (
     <div className="dashboard">
       <h1 className="page-title">Dashboard</h1>
@@ -167,14 +191,38 @@ const stats = [
       <div className="stats-grid">
         {stats.map((stat, idx) => (
           <div key={idx} className="stat-card">
-            <div className="stat-header">
-              <span className="stat-icon">{stat.icon}</span>
-              <span className="stat-label">{stat.label}</span>
+            <div className="stat-top">
+
+            <div className="stat-icon-box">
+              <img
+                src={stat.image}
+                alt={stat.label}
+                className="stat-image"
+              />
             </div>
-            <div className="stat-value">{stat.value}</div>
-            <div className={`stat-change ${stat.changeType}`}>
-              ↑ {stat.change} <span className="change-text">{stat.changeText}</span>
+
+            <div className="stat-content">
+
+              <div className="stat-value">
+                {stat.value}
+              </div>
+
+              <div className="stat-label">
+                {stat.label}
+              </div>
+
+              {stat.change && (
+                <div className={`stat-change ${stat.changeType}`}>
+                  {stat.changeType === "negative" ? "↓" : "↑"} {stat.change}
+                  <span className="change-text">
+                    {stat.changeText}
+                  </span>
+                </div>
+              )}
+
             </div>
+
+          </div>
           </div>
         ))}
       </div>
@@ -184,7 +232,7 @@ const stats = [
         <div className="card chart-container">
           <div className="chart-header">
   <div className="chart-title">
-    📊 <span>Grafik Penjualan Bulanan</span>
+     <span>Grafik Penjualan Bulanan</span>
         </div>
 
         <select
@@ -218,28 +266,69 @@ const stats = [
         </div>
 
         {/* Top Products */}
-        <div className="card products-container">
-          <div className="card-header">
-            <h2 className="card-title">🛒 Produk Terlaris</h2>
+{/* Top Products */}
+<div className="card products-container">
+
+  <div className="card-header">
+    <h2 className="card-title">
+      Produk Terlaris
+    </h2>
+  </div>
+
+  <div className="products-list">
+
+    {topProducts.map((product, idx) => {
+
+      const percentage = Math.round(
+        (product.total / topProducts[0].total) * 100
+      );
+
+      return (
+        <div
+          key={idx}
+          className="product-item"
+        >
+
+          <img
+            src={product.foto}
+            alt={product.name}
+            className="top-product-image"
+          />
+
+          <div className="product-content">
+
+            <div className="product-top">
+
+              <span className="product-name">
+                {product.name}
+              </span>
+
+              <span className="product-percentage">
+                {percentage}%
+              </span>
+
+            </div>
+
+            <div className="product-bar">
+
+              <div
+                className="product-fill"
+                style={{
+                  width: `${percentage}%`
+                }}
+              ></div>
+
+            </div>
+
           </div>
-          <div className="products-list">
-            {topProducts.map((product, idx) => (
-              <div key={idx} className="product-item">
-                <div className="product-info">
-                  <span className="product-emoji">{product.emoji}</span>
-                  <span className="product-name">{product.name}</span>
-                </div>
-                <div className="product-bar">
-                  <div
-                    className="product-fill"
-                    style={{ width: `${product.percentage}%` }}
-                  ></div>
-                </div>
-                <span className="product-percentage">{product.percentage}%</span>
-              </div>
-            ))}
-          </div>
+
         </div>
+      );
+    })}
+
+  </div>
+
+</div>
       </div>
 
       {/* Recent Orders */}
@@ -298,12 +387,16 @@ const stats = [
           </table>
         </div>
       </div>
+      
       {showModal && selectedOrder && (
   <div className="modal-overlay">
     <div className="detail-modal">
 
       <div className="modal-header">
-        <h2>Detail Pesanan</h2>
+        <div>
+          <h2>Detail Pesanan</h2>
+          <p>{selectedOrder.id}</p>
+        </div>
 
         <button
           className="close-btn"
@@ -315,35 +408,70 @@ const stats = [
 
       <div className="modal-body">
 
-        <div className="detail-grid">
+      <div className="detail-order-grid">
 
-          <div className="detail-item">
-            <span>Pelanggan</span>
-            <strong>{selectedOrder.customer}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Produk</span>
-            <strong>{selectedOrder.product}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Total</span>
-            <strong>{selectedOrder.total}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Status</span>
-            <strong>{selectedOrder.status}</strong>
-          </div>
-
+        <div className="detail-order-item">
+          <span>Nama Pelanggan</span>
+          <strong>{selectedOrder.customer}</strong>
         </div>
 
+        <div className="detail-order-item">
+          <span>Tanggal Pesanan</span>
+          <strong>{selectedOrder.tanggal}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>No. WhatsApp</span>
+          <strong>{selectedOrder.no_telepon}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Status Pembayaran</span>
+
+          <div>
+            <span className="badge badge-warning">
+              {selectedOrder.status_pembayaran}
+            </span>
+          </div>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Metode Pembayaran</span>
+          <strong>{selectedOrder.metode_pembayaran}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Metode Pengiriman</span>
+          <strong>{selectedOrder.metode_pengiriman}</strong>
+        </div>
+
+        <div className="detail-order-item full-width">
+          <span>Status Pesanan</span>
+
+          <div>
+            <span className={`badge ${getStatusBadgeClass(selectedOrder.status)}`}>
+              {selectedOrder.status}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      </div>
+
+      <div className="modal-footer">
+        <button
+          className="btn-close"
+          onClick={closeDetail}
+        >
+          Tutup
+        </button>
       </div>
 
     </div>
   </div>
 )}
+      
     </div>
   );
 }

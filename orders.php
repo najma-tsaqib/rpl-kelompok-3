@@ -14,7 +14,6 @@ if (!$conn) {
     exit;
 }
 
-# 🔥 HANDLE UPDATE STATUS
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $input = json_decode(file_get_contents("php://input"), true);
@@ -27,9 +26,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)$input['id_pesanan'];
     $status = pg_escape_string($conn, $input['status']);
 
-    $query = "UPDATE \"UDLestari\".pesanan 
-              SET status_pesanan = '$status' 
-              WHERE id_pesanan = $id";
+    $getCurrent = pg_query($conn, "
+    SELECT status_pesanan
+    FROM \"UDLestari\".pesanan
+    WHERE id_pesanan = $id
+");
+
+$current = pg_fetch_assoc($getCurrent);
+
+$statusLama = $current['status_pesanan'];
+
+    /* KEMBALIKAN STOK JIKA DITOLAK */
+    if (
+    $status === "Ditolak"
+    && $statusLama !== "Ditolak"
+        ) {
+
+        $detail = pg_query($conn, "
+            SELECT id_produk, jumlah
+            FROM \"UDLestari\".detail_pesanan
+            WHERE id_pesanan = $id
+        ");
+
+        while ($row = pg_fetch_assoc($detail)) {
+
+            $id_produk = (int)$row['id_produk'];
+            $jumlah = (int)$row['jumlah'];
+
+            pg_query($conn, "
+                UPDATE \"UDLestari\".produk
+                SET stok = stok + $jumlah
+                WHERE id_produk = $id_produk
+            ");
+        }
+    }
+
+    $query = "
+        UPDATE \"UDLestari\".pesanan
+        SET status_pesanan = '$status'
+        WHERE id_pesanan = $id
+    ";
 
     $result = pg_query($conn, $query);
 
@@ -46,15 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // 🔥 FILTER (HARUS DI ATAS QUERY)
-    $filter = "";
+$filter = "
+WHERE p.status_pesanan IN ('Dikonfirmasi','Selesai')
+";
 
-    if (isset($_GET['month']) && isset($_GET['year'])) {
-        $month = $_GET['month'];
-        $year = $_GET['year'];
+if (isset($_GET['month']) && isset($_GET['year'])) {
+    $month = $_GET['month'];
+    $year = $_GET['year'];
 
-        $filter = "WHERE EXTRACT(MONTH FROM p.tanggal_pesanan) = '$month'
-                   AND EXTRACT(YEAR FROM p.tanggal_pesanan) = '$year'";
-    }
+    $filter = "
+    WHERE p.status_pesanan IN ('Dikonfirmasi','Selesai')
+    AND EXTRACT(MONTH FROM p.tanggal_pesanan) = '$month'
+    AND EXTRACT(YEAR FROM p.tanggal_pesanan) = '$year'
+    ";
+}
 
     // 🔥 QUERY
     $query = "
@@ -66,7 +107,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       SUM(dp.jumlah) AS qty,
       p.total_harga AS total,
       pay.status_pembayaran AS pembayaran,
-      p.status_pesanan AS status
+      p.status_pesanan AS status,
+      pay.metode_pembayaran AS metode_pembayaran,
+    pay.status_pembayaran AS status_pembayaran,
+    p.metode_pengiriman,
+   c.nomor_telepon AS no_telepon
     FROM \"UDLestari\".pesanan p
     JOIN \"UDLestari\".customer c ON p.id_customer = c.id_customer
     JOIN \"UDLestari\".detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
@@ -74,12 +119,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     LEFT JOIN \"UDLestari\".pembayaran pay ON p.id_pesanan = pay.id_pesanan
     $filter
     GROUP BY 
-      p.id_pesanan,
-      c.username,
-      p.tanggal_pesanan,
-      p.total_harga,
-      pay.status_pembayaran,
-      p.status_pesanan
+    p.id_pesanan,
+    c.username,
+    c.nomor_telepon,
+    p.tanggal_pesanan,
+    p.total_harga,
+    pay.status_pembayaran,
+    pay.metode_pembayaran,
+    p.metode_pengiriman,
+    p.status_pesanan
     ORDER BY p.tanggal_pesanan DESC
     ";
 

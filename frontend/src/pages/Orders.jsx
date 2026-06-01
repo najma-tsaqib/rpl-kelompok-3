@@ -91,6 +91,7 @@ const filteredOrders = orders.filter((order) =>
     <div className="orders-page">
       <div className="page-header">
         <h1 className="page-title">Manajemen Pesanan</h1>
+        <h2 className="page-subtitle">Kelola dan verifikasi semua pesanan masuk</h2>
       </div>
 
 <div className="orders-card">
@@ -103,11 +104,6 @@ const filteredOrders = orders.filter((order) =>
     </h2>
 
     <div className="search-box">
-
-      <span className="search-icon">
-        🔍
-      </span>
-
       <input
         type="text"
         placeholder="Cari pesanan..."
@@ -171,12 +167,16 @@ const filteredOrders = orders.filter((order) =>
 
                <td className="action-cell">
 
+              {order.status !== "Ditolak" && (
                 <button
                   className="btn-success"
-                  onClick={() => updateStatus(order.id_pesanan, "Dikonfirmasi")}
+                  onClick={() =>
+                    updateStatus(order.id_pesanan, "Dikonfirmasi")
+                  }
                 >
                   Konfirmasi
                 </button>
+              )}
 
                 <button
                   className="btn-detail"
@@ -185,12 +185,18 @@ const filteredOrders = orders.filter((order) =>
                   Detail
                 </button>
 
+              {order.status !== "Ditolak" && (
                 <button
                   className="btn-danger"
-                  onClick={() => updateStatus(order.id_pesanan, "Dibatalkan")}
+                  onClick={() => {
+                    if (window.confirm("Yakin ingin membatalkan pesanan ini?")) {
+                      updateStatus(order.id_pesanan, "Ditolak");
+                    }
+                  }}
                 >
                   Cancel
                 </button>
+              )}
 
               </td>
 
@@ -225,49 +231,54 @@ const filteredOrders = orders.filter((order) =>
 
       <div className="modal-body">
 
-        <div className="detail-grid">
+      <div className="detail-order-grid">
 
-          <div className="detail-item">
-            <span>Nama Pelanggan</span>
-            <strong>{selectedOrder.nama_pelanggan}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Tanggal</span>
-            <strong>{selectedOrder.tanggal}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Produk</span>
-            <strong>{selectedOrder.produk}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Total</span>
-            <strong>Rp{selectedOrder.total}</strong>
-          </div>
-
-          <div className="detail-item">
-            <span>Pembayaran</span>
-
-            <div>
-              <span className={`badge ${getPaymentBadgeClass(selectedOrder.pembayaran || "Belum Bayar")}`}>
-                {selectedOrder.pembayaran || "Belum Bayar"}
-              </span>
-            </div>
-          </div>
-
-          <div className="detail-item">
-            <span>Status</span>
-
-            <div>
-              <span className={`badge ${getStatusBadgeClass(selectedOrder.status)}`}>
-                {selectedOrder.status}
-              </span>
-            </div>
-          </div>
-
+        <div className="detail-order-item">
+          <span>Nama Pelanggan</span>
+          <strong>{selectedOrder.nama_pelanggan}</strong>
         </div>
+
+        <div className="detail-order-item">
+          <span>Tanggal Pesanan</span>
+          <strong>{selectedOrder.tanggal}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>No. WhatsApp</span>
+          <strong>{selectedOrder.no_telepon}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Status Pembayaran</span>
+
+          <div>
+            <span className={`badge ${getPaymentBadgeClass(selectedOrder.status_pembayaran || "Belum Bayar")}`}>
+              {selectedOrder.status_pembayaran || "Belum Bayar"}
+            </span>
+          </div>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Metode Pembayaran</span>
+          <strong>{selectedOrder.metode_pembayaran || "-"}</strong>
+        </div>
+
+        <div className="detail-order-item">
+          <span>Metode Pengiriman</span>
+          <strong>{selectedOrder.metode_pengiriman || "-"}</strong>
+        </div>
+
+        <div className="detail-order-item full-width">
+          <span>Status Pesanan</span>
+
+          <div>
+            <span className={`badge ${getStatusBadgeClass(selectedOrder.status)}`}>
+              {selectedOrder.status}
+            </span>
+          </div>
+        </div>
+
+      </div>
 
       </div>
 

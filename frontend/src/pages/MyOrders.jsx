@@ -82,7 +82,7 @@ const getStatusClass = (status) => {
       <div className="orders-page">
 
         <h1>
-          📦 Daftar Pesanan Saya
+        Daftar Pesanan Saya
         </h1>
 
         {/* FILTER */}
@@ -152,7 +152,7 @@ const getStatusClass = (status) => {
                       className="product-item"
                       key={idx}
                     >
-                      🍗 {item}
+                    {item}
                     </div>
 
                   ))}

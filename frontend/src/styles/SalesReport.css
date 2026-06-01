@@ -18,14 +18,14 @@
   color: var(--text-gray);
 }
 
-.stats-grid {
+.sales-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin-bottom: 32px;
 }
 
-.stat-card {
+.sales-stat-card {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid var(--border-gray);
   border-radius: 8px;
@@ -37,13 +37,13 @@
   box-shadow: 0 4px 20px 0 rgba(30, 144, 255, 0.13);
 }
 
-.stat-card:hover {
+.sales-stat-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-light);
 }
 
-.stat-label {
+.sales-stat-label {
   font-size: 12px;
   color: var(--text-gray);
   font-weight: 600;
@@ -52,14 +52,14 @@
   margin-bottom: 8px;
 }
 
-.stat-value {
+.sales-stat-value {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 12px;
 }
 
-.stat-change {
+.sales-stat-change {
   font-size: 13px;
   font-weight: 600;
   display: flex;
@@ -67,7 +67,7 @@
   gap: 4px;
 }
 
-.stat-change.positive {
+.sales-stat-change.positive {
   color: var(--success);
 }
 
@@ -227,7 +227,7 @@ tbody tr:hover {
 }
 
 @media (max-width: 1024px) {
-  .stats-grid {
+  .sales-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -241,7 +241,7 @@ tbody tr:hover {
 }
 
 @media (max-width: 768px) {
-  .stats-grid {
+  .sales-stats-grid {
     grid-template-columns: 1fr;
   }
 
