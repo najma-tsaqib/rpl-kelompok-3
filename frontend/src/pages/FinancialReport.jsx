@@ -101,7 +101,9 @@ const formatted = data.map(item => {
     <span className="stat-label">Laba Bersih</span>
   </div>
   <div className="stat-value">
-    {formatRupiah(summary.laba)}
+    {summary.laba === null
+      ? "-"
+      : formatRupiah(summary.laba)}
   </div>
 </div>
 

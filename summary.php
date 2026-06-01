@@ -25,6 +25,6 @@ WHERE status_pesanan IN ('Dikonfirmasi','Selesai')
 
 echo json_encode([
   "pemasukan" => (int)$pemasukan,
-  "laba" => (int)$pemasukan,
+  "laba" => null,
   "saldo" => (int)$saldo
 ]);
